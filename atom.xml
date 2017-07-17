@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>qzwlecr&#39;s Blog</title>
+  <subtitle>一个辣鸡选手的自娱自乐</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://qzwlecr.github.io/"/>
+  <updated>2017-07-17T07:11:19.764Z</updated>
+  <id>http://qzwlecr.github.io/</id>
+  
+  <author>
+    <name>qzwlecr</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>MapReduce：大规模集群上的简单数据处理方式</title>
+    <link href="http://qzwlecr.github.io/2017/06/12/MapReduce%EF%BC%9A%E5%A4%A7%E8%A7%84%E6%A8%A1%E9%9B%86%E7%BE%A4%E4%B8%8A%E7%9A%84%E7%AE%80%E5%8D%95%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/"/>
+    <id>http://qzwlecr.github.io/2017/06/12/MapReduce：大规模集群上的简单数据处理方式/</id>
+    <published>2017-06-12T03:36:28.000Z</published>
+    <updated>2017-07-17T07:11:19.764Z</updated>
+    
+    <content type="html"><![CDATA[<p>MapReduce是Google公司的Jeffrey和Sanjay提出的一个编程模型，主要用于大规模数据集的并行运算。它吸收了函数式编程语言中的Map和Reduce，通过Map处理原始键值对生成中间键值对，通过Reduce合并相同中间键对应的值。这一特性符合很多现实生活中的场景。</p>
+<p>这种编程模型下的程序可以并行化地在大规模集群上运行，而在这一过程中用户却不需考虑输入数据的划分、程序的运行安排、节点故障和机器间通信，只需完成对数据的处理和合并。</p>
+<a id="more"></a>
+<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><h2 id="过程总览"><a href="#过程总览" class="headerlink" title="过程总览"></a>过程总览</h2><p><img src="/images/Map-Reduce/overview.png" alt="overview"></p>
+<ol>
+<li>user program调用MapReduce库，先把输入文件划分为M份（M可由用户指定），每一份通常有16MB到64MB，如图左方所示分成了split0~4，然后将user program拷贝到集群内其它机器上。 </li>
+<li>user program的副本中有一个称为master，其余称为worker，master负责调度，为空闲worker分配作业（Map作业或者Reduce作业）。 </li>
+<li>Map worker开始读取对应的输入数据，它们从输入数据中抽取出键值对，每一个键值对都作为参数传递给Map函数，Map函数产生的中间键值对被缓存在内存中。 </li>
+<li>缓存在内存中的中间键值对会被定期写入本地磁盘，而且被分为R个区（R可由用户指定），这些中间键值对的位置会被通报给master，master负责将信息传递给Reduce worker。 </li>
+<li>master通知Reduce worker它负责的分区在什么位置，当Reduce worker把所有它负责的中间键值对都读过来后，先对它们进行排序，使得相同键的键值对聚集在一起。因为不同的键可能会映射到同一个分区也就是同一个Reduce作业，所以排序是必须的。若内部排序无法满足要求，则使用外部排序。</li>
+<li>Reduce worker遍历排序后的中间键值对，对于每个唯一的键，都将键与关联的值传递给Reduce函数，Reduce函数产生的输出会添加到这个分区的输出文件中。</li>
+<li>当所有的Map和Reduce作业都完成了，master唤醒user program，MapReduce函数返回user program。</li>
+</ol>
+<h2 id="容错机制"><a href="#容错机制" class="headerlink" title="容错机制"></a>容错机制</h2><h3 id="Worker错误"><a href="#Worker错误" class="headerlink" title="Worker错误"></a>Worker错误</h3><p>未完待续……</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;MapReduce是Google公司的Jeffrey和Sanjay提出的一个编程模型，主要用于大规模数据集的并行运算。它吸收了函数式编程语言中的Map和Reduce，通过Map处理原始键值对生成中间键值对，通过Reduce合并相同中间键对应的值。这一特性符合很多现实生活中的场景。&lt;/p&gt;
+&lt;p&gt;这种编程模型下的程序可以并行化地在大规模集群上运行，而在这一过程中用户却不需考虑输入数据的划分、程序的运行安排、节点故障和机器间通信，只需完成对数据的处理和合并。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="分布式" scheme="http://qzwlecr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Leetcode一句话题解</title>
+    <link href="http://qzwlecr.github.io/2017/05/20/Leetcode%E4%B8%80%E5%8F%A5%E8%AF%9D%E9%A2%98%E8%A7%A3/"/>
+    <id>http://qzwlecr.github.io/2017/05/20/Leetcode一句话题解/</id>
+    <published>2017-05-20T05:48:57.000Z</published>
+    <updated>2017-07-17T06:49:45.834Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近无聊，刷了一批Leetcode水题，用简要题解记录一下做题过程，也小小帮助一下被坑所困的人。</p>
+<a id="more"></a>
+<h2 id="1-10"><a href="#1-10" class="headerlink" title="1~10"></a>1~10</h2><ol>
+<li><p><a href="https://leetcode.com/problems/two-sum" target="_blank" rel="external">Two Sum</a></p>
+<ol>
+<li>$O(n^2)$：暴力枚举</li>
+<li>$O(nlogn)$：排序+two-pointers或者map/set大法好</li>
+<li>$O(n)$：哈希表</li>
+</ol>
+</li>
+<li><p><a href="https://leetcode.com/problems/add-two-numbers" target="_blank" rel="external">Add Two Numbers</a></p>
+<p>$O(n)$，边处理边进位，注意最后一位进位和链表为空的边界情况</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters" target="_blank" rel="external">Longest Substring Without Repeating Characters</a></p>
+<ol>
+<li>$O(nlogn)$，滑动窗口，用一个set维护当前的字符集，如果新加入的字符以前出现过，抛弃左边重复的字符，所有字符有且仅有被遍历一遍</li>
+<li>$O(n)$，把set换为哈希表</li>
+</ol>
+</li>
+<li><p><a href="https://leetcode.com/problems/median-of-two-sorted-arrays" target="_blank" rel="external">Median of Two Sorted Arrays</a></p>
+<p>$O(log(min(m,n))$，特判数组大小为(0,*)(1,*)(2,*)的情况，二分查找，注意奇怪的边界情况</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/longest-palindromic-substring" target="_blank" rel="external">Longest Palindromic Substring</a></p>
+<p>$O(n)$，强上manacher算法</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/zigzag-conversion" target="_blank" rel="external">ZigZag Conversion</a></p>
+<p>手动模拟一下“ZIGZAG”的样子，模拟过程</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/reverse-integer" target="_blank" rel="external">Reverse Integer</a></p>
+<p>按位取出，重新分配，注意溢出问题</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/string-to-integer-atoi" target="_blank" rel="external">String to Integer (atoi)</a></p>
+<p>按位取出，重新分配，注意符号和溢出问题</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/palindrome-number" target="_blank" rel="external">Palindrome Number</a></p>
+<p>$O(n)$，从两边向中间判断</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/regular-expression-matching" target="_blank" rel="external">Regular Expression Matching</a></p>
+<p>$O(mn)$，DP，按下一个是否为’*’分类讨论</p>
+</li>
+</ol>
+<h2 id="11-20"><a href="#11-20" class="headerlink" title="11~20"></a>11~20</h2><ol>
+<li><p><a href="https://leetcode.com/problems/container-with-most-water" target="_blank" rel="external">Container With Most Water</a></p>
+<p>$O(n)$，two pointers，移动高度较小的指针，使结果尽量大。</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/integer-to-roman" target="_blank" rel="external">Integer to Roman</a></p>
+<p>模拟题，按照罗马数字的规则追加相应的字符串。</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/roman-to-integer" target="_blank" rel="external">Roman to Integer</a></p>
+<p>模拟题，按照罗马数字的规则加上相应的数字。</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/longest-common-prefix" target="_blank" rel="external">Longest Common Prefix</a></p>
+<p>模拟题，按照长度排序，然后搜索最短的字符串最大能匹配到所有的字符串的第多少个字符。</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/3sum" target="_blank" rel="external">3Sum</a></p>
+<p>$O(n^2)$，two pointers，枚举一个数，然后在后面的序列寻找满足的两个数，注意去重。</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/3sum-closest" target="_blank" rel="external">3Sum Closest</a></p>
+<p>与3Sum相同， 只是记录的时候判断并记录距离最小的值。</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number" target="_blank" rel="external">Letter Combinations of a Phone Number</a></p>
+<p>模拟题，每次循环往上次生成的序列中的每个元素尾部追加相应字符。</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/4sum" target="_blank" rel="external">4Sum</a></p>
+<p>与3Sum相同，只是需要枚举两个值。</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list" target="_blank" rel="external">Remove Nth Node From End of List</a></p>
+<p>简单的链表操作，注意删除首节点的情况。</p>
+</li>
+<li><p><a href="https://leetcode.com/problems/valid-parentheses" target="_blank" rel="external">Valid Parentheses</a></p>
+<p>使用一个栈维护一下之前的左括号，按照右括号判断，若无对应的左括号则无法匹配。</p>
+</li>
+</ol>
+<h2 id="21-30"><a href="#21-30" class="headerlink" title="21-30"></a>21-30</h2><p>to be continued…</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;最近无聊，刷了一批Leetcode水题，用简要题解记录一下做题过程，也小小帮助一下被坑所困的人。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="算法" scheme="http://qzwlecr.github.io/tags/%E7%AE%97%E6%B3%95/"/>
+    
+      <category term="leetcode" scheme="http://qzwlecr.github.io/tags/leetcode/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>NFC与门禁卡初探</title>
+    <link href="http://qzwlecr.github.io/2017/05/17/NFC%E4%B8%8E%E9%97%A8%E7%A6%81%E5%8D%A1%E5%88%9D%E6%8E%A2/"/>
+    <id>http://qzwlecr.github.io/2017/05/17/NFC与门禁卡初探/</id>
+    <published>2017-05-17T03:36:21.000Z</published>
+    <updated>2017-07-17T07:11:05.020Z</updated>
+    
+    <content type="html"><![CDATA[<p>开学之后，学校寝室和启明学院都开始使用了以校园卡为载体的门禁服务，只有刷指定人员的校园卡才能进入。我对其原理产生了好奇，就趁机进行了一些研究。</p>
+<a id="more"></a>
+<h1 id="了解NFC"><a href="#了解NFC" class="headerlink" title="了解NFC"></a>了解NFC</h1><p>NFC，near field communication(近场通信)，是一种短距离的高频无线通信技术，允许电子设备之间进行非接触式点对点数据传输，在十厘米内交换数据。2004年，诺基亚、飞利浦以及索尼三家公司建立了NFC forum，成为了NFC的开端。</p>
+<p>NFC从其本质上来说，是一种RFID的演进技术，其于04年和05年发布了两个协议标准，分别是ISO/IEC 18092：2004和ISO/IEC 21481：2005。上述两个协议均源于更早的RFID协议 ISO/IEC 14443，即13.56MHz RFID协议标准。上述两个NFC协议推出的第二版分别是ISO/IEC 18092：2013(NFCIP-1)和ISO/IEC 21481：2012(NFCIP-2)。NFC向下兼容索尼的FeliCaTM标准以及飞利浦的MIFARE标准。</p>
+<table>
+<thead>
+<tr>
+<th>技术</th>
+<th>协议</th>
+<th>频率</th>
+<th>传输距离</th>
+<th>主动</th>
+<th>被动</th>
+<th>典型设备和应用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NFC</td>
+<td>ISO/IEC 18092<br>ISO/IEC 21481</td>
+<td>13.56 MHz</td>
+<td>10 cm</td>
+<td>√</td>
+<td>√</td>
+<td>对等网络中的智能手机、平板电脑、便携式设备</td>
+</tr>
+<tr>
+<td>免接触智能卡</td>
+<td>ISO/IEC 14443</td>
+<td>13.56 MHz</td>
+<td>10 cm</td>
+<td></td>
+<td>√</td>
+<td>票务、支付、门禁、护照等</td>
+</tr>
+<tr>
+<td>RFID</td>
+<td>ISO/IEC 18000</td>
+<td>LF (120–150 KHz)<br>HF (13.56 MHz)<br>UHF (433–900 MHz)</td>
+<td>&lt;40 m</td>
+<td>√</td>
+<td>√</td>
+<td>标记和跟踪物品，适用于制造物流、零售等</td>
+</tr>
+</tbody>
+</table>
+<p>NFC的工作模式有三种，卡模拟模式（Card emulation mode）、点对点模式（P2P mode）和读/写模式（Reader/Writer mode）。</p>
+<ul>
+<li>在读/写模式中，NFC读/写器从NFC智能对象中读取数据，并根据这些信息操作。例如，采用支持NFC的手机，用户可以通过检索的URL自动联网、无需键入便可发送短信(SMS)文本、获取优惠券等，所有这些仅需触摸此对象的设备即可。</li>
+<li>在点对点模式中，任何支持NFC功能的读/写器都可与另一个NFC读/写器进行通信并交换数据，与读/写模式具有同样的安全性、直观性和简单性等优势。在这种模式下，一个读/写器可作为一个标签，创建通信链路。例如，具有读/写器的两个设备(如智能电话)可以彼此通信。</li>
+<li>卡模拟模式的NFC器件可以取代非接触式智能卡，使NFC器件能够用于现有的非接触式卡基础设施，进行票务、门禁、运输、收费站以及非接触式支付等操作。</li>
+</ul>
+<h1 id="复制流程"><a href="#复制流程" class="headerlink" title="复制流程"></a>复制流程</h1><h2 id="初步分析"><a href="#初步分析" class="headerlink" title="初步分析"></a>初步分析</h2><p>由于采集门禁卡信息时，只需要提供学号和姓名，以及卡编号，无需其他信息，故推测门禁只是简单读取卡的ID，而不会去解密其他信息，只需要使用卡模拟模式，简单地模拟一个ID相同的卡即可。在网上查阅资料可得知，门禁卡的工作原理大多如此。</p>
+<h2 id="信息采集"><a href="#信息采集" class="headerlink" title="信息采集"></a>信息采集</h2><p>由于手头设备有限，只能用手机查看校园卡的ID信息。</p>
+<p><a href="https://play.google.com/store/apps/details?id=com.wakdev.wdnfc" target="_blank" rel="external">NFC Tools下载地址</a><br><img src="/images/NFC-card/ID-information.jpg" alt=""></p>
+<p>容易得到，Serial number处为形如<code>XX:XX:XX:XX</code>的ID（X为16进制数字）。这就是门禁所识别的ID。</p>
+<h2 id="信息查询"><a href="#信息查询" class="headerlink" title="信息查询"></a>信息查询</h2><p>查阅相关资料可以得知，NFC的相应配置保存在<code>/system/etc/libnfc-nxp.conf</code>或<code>/system/etc/libnfc-brcm.conf</code>中，具体的配置取决于NFC芯片的类型。</p>
+<p>手头有一部Nexus 6P，其芯片为NXP PN548，故阅读了<code>libnfc-nxp.conf</code>，通过注释从中发现了需要更改的配置。在文件的607行，有Core configuration settings中的<code>LA_NFCID1</code>，代表了手机NFC的NFCA-ID，这正是门禁系统能识别的ID。这里，33表示配置的类型，04表示后面所跟的配置字节数，后面的四个字节为数据。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">###############################################################################</div><div class="line"># Core configuration settings</div><div class="line"># It includes</div><div class="line"># 18        - Poll Mode NFC-F:   PF_BIT_RATE</div><div class="line"># 21        - Poll Mode ISO-DEP: PI_BIT_RATE</div><div class="line"># 28        - Poll Mode NFC-DEP: PN_NFC_DEP_SPEED</div><div class="line"># 30        - Lis. Mode NFC-A:   LA_BIT_FRAME_SDD</div><div class="line"># 31        - Lis. Mode NFC-A:   LA_PLATFORM_CONFIG</div><div class="line"># 33        - Lis. Mode NFC-A:   LA_NFCID1</div><div class="line"># 50        - Lis. Mode NFC-F:   LF_PROTOCOL_TYPE</div><div class="line"># 54        - Lis. Mode NFC-F:   LF_CON_BITR_F</div><div class="line"># 5B        - Lis. Mode ISO-DEP: LI_BIT_RATE</div><div class="line"># 60        - Lis. Mode NFC-DEP: LN_WT</div><div class="line"># 80        - Other Param.:      RF_FIELD_INFO</div><div class="line"># 81        - Other Param.:      RF_NFCEE_ACTION</div><div class="line"># 82        - Other Param.:      NFCDEP_OP</div><div class="line">NXP_CORE_CONF=&#123;20, 02, 2B, 0D,</div><div class="line">        18, 01, 01,</div><div class="line">        21, 01, 00,</div><div class="line">        28, 01, 00,</div><div class="line">        30, 01, 08,</div><div class="line">        31, 01, 03,</div><div class="line">        33, 04, 00, 00, 00, 00,</div><div class="line">        50, 01, 02,</div><div class="line">        54, 01, 06,</div><div class="line">        5B, 01, 00,</div><div class="line">        60, 01, 0E,</div><div class="line">        80, 01, 01,</div><div class="line">        81, 01, 01,</div><div class="line">        82, 01, 0E</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="信息修改"><a href="#信息修改" class="headerlink" title="信息修改"></a>信息修改</h2><p>将上面获取到的ID插入配置文件中，重启手机NFC，即可完成修改。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/system/bin/sh</span></div><div class="line">sed -i <span class="string">'607s/^.*$/        33, 04, XX, XX, XX, XX,/'</span> /etc/libnfc-nxp.conf</div></pre></td></tr></table></figure>
+<h2 id="批量修改"><a href="#批量修改" class="headerlink" title="批量修改"></a>批量修改</h2><p>尝试着写了批量修改的脚本，以完成某些特殊要求，但是由于安卓系统本身的限制，无法做到自动重启NFC，贴代码仅供参考。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/system/bin/sh</span></div><div class="line">setenforce 0</div><div class="line"><span class="built_in">echo</span> <span class="string">"SElinux disabled"</span></div><div class="line"><span class="comment">#disable SElinux</span></div><div class="line">mount -o rw,remount /system</div><div class="line"><span class="built_in">echo</span> <span class="string">"nfc disabled"</span></div><div class="line">service call nfc 5</div><div class="line">sleep 1</div><div class="line"><span class="comment">#first person</span></div><div class="line">sed -i <span class="string">'607s/^.*$/        33, 04, XX, XX, XX, XX,/'</span> /etc/libnfc-nxp.conf</div><div class="line">sleep 1</div><div class="line">service call nfc 6</div><div class="line"><span class="built_in">echo</span> <span class="string">"nfc enabled"</span></div><div class="line">sleep 5</div><div class="line">service call nfc 5</div><div class="line"><span class="built_in">echo</span> <span class="string">"nfc disabled"</span></div><div class="line">sleep 1</div><div class="line"><span class="comment">#second person</span></div><div class="line">sed -i <span class="string">'607s/^.*$/        33, 04, XX, XX, XX, XX,/'</span> /etc/libnfc-nxp.conf</div><div class="line">service call nfc 6</div><div class="line"><span class="built_in">echo</span> <span class="string">"nfc enabled"</span></div><div class="line">sleep 1</div><div class="line">setenforce 1</div></pre></td></tr></table></figure>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>门禁使用易于复制的射频卡ID检测是极为不安全的，外来人员只需要注意到这一点就可以轻松地进入宿舍，同时，此功能还可以用来体育打卡、进入图书馆等，需要慎加利用。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;开学之后，学校寝室和启明学院都开始使用了以校园卡为载体的门禁服务，只有刷指定人员的校园卡才能进入。我对其原理产生了好奇，就趁机进行了一些研究。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="NFC" scheme="http://qzwlecr.github.io/tags/NFC/"/>
+    
+      <category term="hack" scheme="http://qzwlecr.github.io/tags/hack/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>HelloWorld</title>
+    <link href="http://qzwlecr.github.io/2017/02/27/HelloWorld/"/>
+    <id>http://qzwlecr.github.io/2017/02/27/HelloWorld/</id>
+    <published>2017-02-27T13:51:58.000Z</published>
+    <updated>2017-07-17T06:19:20.927Z</updated>
+    
+    <content type="html"><![CDATA[<p>啊小红红真可爱。<br>说完啦。<br>hello,world!!!!</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;啊小红红真可爱。&lt;br&gt;说完啦。&lt;br&gt;hello,world!!!!&lt;/p&gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+</feed>
