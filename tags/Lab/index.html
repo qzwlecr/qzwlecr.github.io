@@ -6,21 +6,17 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://qzwlecr.github.io">
-  <title>MapReduce：大规模集群上的简单数据处理方式 | qzwlecr&#39;s Blog</title>
+  <title>Tag: Lab | qzwlecr&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="MapReduce是Google公司的Jeffrey和Sanjay提出的一个编程模型，主要用于大规模数据集的并行运算。它吸收了函数式编程语言中的Map和Reduce，通过Map处理原始键值对生成中间键值对，通过Reduce合并相同中间键对应的值。这一特性符合很多现实生活中的场景。 这种编程模型下的程序可以并行化地在大规模集群上运行，而在这一过程中用户却不需考虑输入数据的划分、程序的运行安排、节点故">
-<meta name="keywords" content="分布式">
-<meta property="og:type" content="article">
-<meta property="og:title" content="MapReduce：大规模集群上的简单数据处理方式">
-<meta property="og:url" content="http://qzwlecr.github.io/2017/06/12/MapReduce：大规模集群上的简单数据处理方式/index.html">
+  <meta name="description" content="一个辣鸡选手的自娱自乐">
+<meta property="og:type" content="website">
+<meta property="og:title" content="qzwlecr&#39;s Blog">
+<meta property="og:url" content="http://qzwlecr.github.io/tags/Lab/index.html">
 <meta property="og:site_name" content="qzwlecr&#39;s Blog">
-<meta property="og:description" content="MapReduce是Google公司的Jeffrey和Sanjay提出的一个编程模型，主要用于大规模数据集的并行运算。它吸收了函数式编程语言中的Map和Reduce，通过Map处理原始键值对生成中间键值对，通过Reduce合并相同中间键对应的值。这一特性符合很多现实生活中的场景。 这种编程模型下的程序可以并行化地在大规模集群上运行，而在这一过程中用户却不需考虑输入数据的划分、程序的运行安排、节点故">
-<meta property="og:image" content="http://qzwlecr.github.io/images/Map-Reduce/overview.png">
-<meta property="og:updated_time" content="2017-07-17T07:11:19.764Z">
+<meta property="og:description" content="一个辣鸡选手的自娱自乐">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MapReduce：大规模集群上的简单数据处理方式">
-<meta name="twitter:description" content="MapReduce是Google公司的Jeffrey和Sanjay提出的一个编程模型，主要用于大规模数据集的并行运算。它吸收了函数式编程语言中的Map和Reduce，通过Map处理原始键值对生成中间键值对，通过Reduce合并相同中间键对应的值。这一特性符合很多现实生活中的场景。 这种编程模型下的程序可以并行化地在大规模集群上运行，而在这一过程中用户却不需考虑输入数据的划分、程序的运行安排、节点故">
-<meta name="twitter:image" content="http://qzwlecr.github.io/images/Map-Reduce/overview.png">
+<meta name="twitter:title" content="qzwlecr&#39;s Blog">
+<meta name="twitter:description" content="一个辣鸡选手的自娱自乐">
   
     <link rel="alternative" href="/atom.xml" title="qzwlecr&#39;s Blog" type="application/atom+xml">
   
@@ -183,48 +179,36 @@ ga('send', 'pageview');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-MapReduce：大规模集群上的简单数据处理方式" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      MapReduce：大规模集群上的简单数据处理方式
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/06/12/MapReduce：大规模集群上的简单数据处理方式&&MIT-6.824-Lab-1/" class="archive-article-date">
+  	<time datetime="2017-06-12T03:36:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-12</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/06/12/MapReduce：大规模集群上的简单数据处理方式&&MIT-6.824-Lab-1/">MapReduce：大规模集群上的简单数据处理方式 &amp;&amp; MIT 6.824 Lab 1</a>
     </h1>
   
 
-        
-        <a href="/2017/06/12/MapReduce：大规模集群上的简单数据处理方式/" class="archive-article-date">
-  	<time datetime="2017-06-12T03:36:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-12</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>MapReduce是Google公司的Jeffrey和Sanjay提出的一个编程模型，主要用于大规模数据集的并行运算。它吸收了函数式编程语言中的Map和Reduce，通过Map处理原始键值对生成中间键值对，通过Reduce合并相同中间键对应的值。这一特性符合很多现实生活中的场景。</p>
-<p>这种编程模型下的程序可以并行化地在大规模集群上运行，而在这一过程中用户却不需考虑输入数据的划分、程序的运行安排、节点故障和机器间通信，只需完成对数据的处理和合并。</p>
-<a id="more"></a>
-<h1 id="分析"><a href="#分析" class="headerlink" title="分析"></a>分析</h1><h2 id="过程总览"><a href="#过程总览" class="headerlink" title="过程总览"></a>过程总览</h2><p><img src="/images/Map-Reduce/overview.png" alt="overview"></p>
-<ol>
-<li>user program调用MapReduce库，先把输入文件划分为M份（M可由用户指定），每一份通常有16MB到64MB，如图左方所示分成了split0~4，然后将user program拷贝到集群内其它机器上。 </li>
-<li>user program的副本中有一个称为master，其余称为worker，master负责调度，为空闲worker分配作业（Map作业或者Reduce作业）。 </li>
-<li>Map worker开始读取对应的输入数据，它们从输入数据中抽取出键值对，每一个键值对都作为参数传递给Map函数，Map函数产生的中间键值对被缓存在内存中。 </li>
-<li>缓存在内存中的中间键值对会被定期写入本地磁盘，而且被分为R个区（R可由用户指定），这些中间键值对的位置会被通报给master，master负责将信息传递给Reduce worker。 </li>
-<li>master通知Reduce worker它负责的分区在什么位置，当Reduce worker把所有它负责的中间键值对都读过来后，先对它们进行排序，使得相同键的键值对聚集在一起。因为不同的键可能会映射到同一个分区也就是同一个Reduce作业，所以排序是必须的。若内部排序无法满足要求，则使用外部排序。</li>
-<li>Reduce worker遍历排序后的中间键值对，对于每个唯一的键，都将键与关联的值传递给Reduce函数，Reduce函数产生的输出会添加到这个分区的输出文件中。</li>
-<li>当所有的Map和Reduce作业都完成了，master唤醒user program，MapReduce函数返回user program。</li>
-</ol>
-<h2 id="容错机制"><a href="#容错机制" class="headerlink" title="容错机制"></a>容错机制</h2><h3 id="Worker错误"><a href="#Worker错误" class="headerlink" title="Worker错误"></a>Worker错误</h3><p>未完待续……</p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
@@ -232,121 +216,27 @@ ga('send', 'pageview');
         		<li class="article-tag-list-item">
         			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
         		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Lab</a>
+        		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://qzwlecr.github.io/2017/06/12/MapReduce：大规模集群上的简单数据处理方式/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
   
   
-    <a href="/2017/05/20/Leetcode一句话题解/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Leetcode一句话题解</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-        <div class="toc-container tooltip-left">
-            <i class="icon-font icon-category"></i>
-            <div class="tooltip tooltip-east">
-                <span class="tooltip-item">
-                </span>
-                <span class="tooltip-content">
-                    <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#分析"><span class="toc-number">1.</span> <span class="toc-text">分析</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#过程总览"><span class="toc-number">1.1.</span> <span class="toc-text">过程总览</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#容错机制"><span class="toc-number">1.2.</span> <span class="toc-text">容错机制</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Worker错误"><span class="toc-number">1.2.1.</span> <span class="toc-text">Worker错误</span></a></li></ol></li></ol></li></ol>
-                    </div>
-                </span>
-            </div>
-        </div>
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
+    
 
 
           </div>
@@ -369,9 +259,9 @@ ga('send', 'pageview');
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: false,
@@ -456,15 +346,19 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Lab</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
