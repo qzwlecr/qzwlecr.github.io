@@ -181,19 +181,174 @@ ga('send', 'pageview');
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-MapReduce：大规模集群上的简单数据处理方式&amp;&amp;MIT-6.824-Lab-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-Google-File-System-一个面向大数据的分布式文件系统" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/12/MapReduce：大规模集群上的简单数据处理方式&&MIT-6.824-Lab-1/">MapReduce：大规模集群上的简单数据处理方式 &amp;&amp; MIT 6.824 Lab 1</a>
+      <a class="article-title" href="/2017/07/21/Google-File-System-一个面向大数据的分布式文件系统/">Google File System：一个面向大规模数据密集型应用的分布式文件系统</a>
     </h1>
   
 
         
-        <a href="/2017/06/12/MapReduce：大规模集群上的简单数据处理方式&&MIT-6.824-Lab-1/" class="archive-article-date">
+        <a href="/2017/07/21/Google-File-System-一个面向大数据的分布式文件系统/" class="archive-article-date">
+  	<time datetime="2017-07-21T11:41:31.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-21</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Google File System是一个面向大规模数据密集型应用的、可伸缩的分布式文件系统。虽然它运行在廉价的硬件设备上，但是它依然了提供灾难冗余的能力，为大量客户机提供了高性能的服务。</p>
+<p>在了解完MapReduce的相关内容后，我阅读了GFS的论文，产生了一些自己的思考，在这里记录下来。</p>
+        
+          <a class="article-more-a" href="/2017/07/21/Google-File-System-一个面向大数据的分布式文件系统/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/21/Google-File-System-一个面向大数据的分布式文件系统/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Raft-一种易于理解的一致性算法-MIT-6-824-Lab-2" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/07/19/Raft-一种易于理解的一致性算法-MIT-6-824-Lab-2/">Raft：一种易于理解的一致性算法 &amp;&amp; MIT 6.824 Lab 2</a>
+    </h1>
+  
+
+        
+        <a href="/2017/07/19/Raft-一种易于理解的一致性算法-MIT-6-824-Lab-2/" class="archive-article-date">
+  	<time datetime="2017-07-19T13:17:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-19</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Raft 是一种为了管理复制日志的一致性算法。它提供了和 Paxos 算法相同的功能和性能，但是它的算法结构和 Paxos 不同，使得 Raft 算法更加容易理解并且更容易构建实际的系统。为了提升可理解性，Raft 将一致性算法分解成了几个关键模块，例如领导人选举、日志复制和安全性。同时它通过实施一个更强的一致性来减少需要考虑的状态的数量。Raft 算法还包括一个新的机制来允许集群成员的动态改变，它利用重叠的大多数来保证安全性。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Lab</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/07/19/Raft-一种易于理解的一致性算法-MIT-6-824-Lab-2/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/">MapReduce：大规模集群上的简单数据处理方式 &amp;&amp; MIT 6.824 Lab 1</a>
+    </h1>
+  
+
+        
+        <a href="/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/" class="archive-article-date">
   	<time datetime="2017-06-12T03:36:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-12</time>
 </a>
         
@@ -205,7 +360,7 @@ ga('send', 'pageview');
 <p>这种编程模型下的程序可以并行化地在大规模集群上运行，而在这一过程中用户却不需考虑输入数据的划分、程序的运行安排、节点故障和机器间通信，只需完成对数据的处理和合并。</p>
 <p>我阅读了MapReduce的论文，并完成了MIT 6.824的第一个Lab，对其有了更深的了解。</p>
         
-          <a class="article-more-a" href="/2017/06/12/MapReduce：大规模集群上的简单数据处理方式&&MIT-6.824-Lab-1/#more">more >></a>
+          <a class="article-more-a" href="/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/#more">more >></a>
         
       
 
@@ -233,7 +388,7 @@ ga('send', 'pageview');
 
       
         <p class="article-more-link">
-          <a class="article-more-a" href="/2017/06/12/MapReduce：大规模集群上的简单数据处理方式&&MIT-6.824-Lab-1/">展开全文 >></a>
+          <a class="article-more-a" href="/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/">展开全文 >></a>
         </p>
       
 
@@ -600,15 +755,15 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Lab</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Lab</a>
               </li>
              
               <li class="article-tag-list-item">

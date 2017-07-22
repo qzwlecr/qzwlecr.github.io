@@ -6,19 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://qzwlecr.github.io">
-  <title>Leetcode一句话题解 | qzwlecr&#39;s Blog</title>
+  <title>Raft：一种易于理解的一致性算法 &amp;&amp; MIT 6.824 Lab 2 | qzwlecr&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近无聊，刷了一批Leetcode水题，用简要题解记录一下做题过程，也小小帮助一下被坑所困的人。">
-<meta name="keywords" content="算法,leetcode">
+  <meta name="description" content="Raft 是一种为了管理复制日志的一致性算法。它提供了和 Paxos 算法相同的功能和性能，但是它的算法结构和 Paxos 不同，使得 Raft 算法更加容易理解并且更容易构建实际的系统。为了提升可理解性，Raft 将一致性算法分解成了几个关键模块，例如领导人选举、日志复制和安全性。同时它通过实施一个更强的一致性来减少需要考虑的状态的数量。Raft 算法还包括一个新的机制来允许集群成员的动态改变，">
+<meta name="keywords" content="分布式,Lab">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Leetcode一句话题解">
-<meta property="og:url" content="http://qzwlecr.github.io/2017/05/20/Leetcode一句话题解/index.html">
+<meta property="og:title" content="Raft：一种易于理解的一致性算法 &amp;&amp; MIT 6.824 Lab 2">
+<meta property="og:url" content="http://qzwlecr.github.io/2017/07/19/Raft-一种易于理解的一致性算法-MIT-6-824-Lab-2/index.html">
 <meta property="og:site_name" content="qzwlecr&#39;s Blog">
-<meta property="og:description" content="最近无聊，刷了一批Leetcode水题，用简要题解记录一下做题过程，也小小帮助一下被坑所困的人。">
-<meta property="og:updated_time" content="2017-07-17T06:49:45.834Z">
+<meta property="og:description" content="Raft 是一种为了管理复制日志的一致性算法。它提供了和 Paxos 算法相同的功能和性能，但是它的算法结构和 Paxos 不同，使得 Raft 算法更加容易理解并且更容易构建实际的系统。为了提升可理解性，Raft 将一致性算法分解成了几个关键模块，例如领导人选举、日志复制和安全性。同时它通过实施一个更强的一致性来减少需要考虑的状态的数量。Raft 算法还包括一个新的机制来允许集群成员的动态改变，">
+<meta property="og:updated_time" content="2017-07-19T14:47:06.927Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Leetcode一句话题解">
-<meta name="twitter:description" content="最近无聊，刷了一批Leetcode水题，用简要题解记录一下做题过程，也小小帮助一下被坑所困的人。">
+<meta name="twitter:title" content="Raft：一种易于理解的一致性算法 &amp;&amp; MIT 6.824 Lab 2">
+<meta name="twitter:description" content="Raft 是一种为了管理复制日志的一致性算法。它提供了和 Paxos 算法相同的功能和性能，但是它的算法结构和 Paxos 不同，使得 Raft 算法更加容易理解并且更容易构建实际的系统。为了提升可理解性，Raft 将一致性算法分解成了几个关键模块，例如领导人选举、日志复制和安全性。同时它通过实施一个更强的一致性来减少需要考虑的状态的数量。Raft 算法还包括一个新的机制来允许集群成员的动态改变，">
   
     <link rel="alternative" href="/atom.xml" title="qzwlecr&#39;s Blog" type="application/atom+xml">
   
@@ -181,100 +181,27 @@ ga('send', 'pageview');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Leetcode一句话题解" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Raft-一种易于理解的一致性算法-MIT-6-824-Lab-2" class="article article-type-post " itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
         
   
     <h1 class="article-title" itemprop="name">
-      Leetcode一句话题解
+      Raft：一种易于理解的一致性算法 &amp;&amp; MIT 6.824 Lab 2
     </h1>
   
 
         
-        <a href="/2017/05/20/Leetcode一句话题解/" class="archive-article-date">
-  	<time datetime="2017-05-20T05:48:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-05-20</time>
+        <a href="/2017/07/19/Raft-一种易于理解的一致性算法-MIT-6-824-Lab-2/" class="archive-article-date">
+  	<time datetime="2017-07-19T13:17:03.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-07-19</time>
 </a>
         
       </header>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近无聊，刷了一批Leetcode水题，用简要题解记录一下做题过程，也小小帮助一下被坑所困的人。</p>
-<a id="more"></a>
-<h2 id="1-10"><a href="#1-10" class="headerlink" title="1~10"></a>1~10</h2><ol>
-<li><p><a href="https://leetcode.com/problems/two-sum" target="_blank" rel="external">Two Sum</a></p>
-<ol>
-<li>$O(n^2)$：暴力枚举</li>
-<li>$O(nlogn)$：排序+two-pointers或者map/set大法好</li>
-<li>$O(n)$：哈希表</li>
-</ol>
-</li>
-<li><p><a href="https://leetcode.com/problems/add-two-numbers" target="_blank" rel="external">Add Two Numbers</a></p>
-<p>$O(n)$，边处理边进位，注意最后一位进位和链表为空的边界情况</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters" target="_blank" rel="external">Longest Substring Without Repeating Characters</a></p>
-<ol>
-<li>$O(nlogn)$，滑动窗口，用一个set维护当前的字符集，如果新加入的字符以前出现过，抛弃左边重复的字符，所有字符有且仅有被遍历一遍</li>
-<li>$O(n)$，把set换为哈希表</li>
-</ol>
-</li>
-<li><p><a href="https://leetcode.com/problems/median-of-two-sorted-arrays" target="_blank" rel="external">Median of Two Sorted Arrays</a></p>
-<p>$O(log(min(m,n))$，特判数组大小为(0,*)(1,*)(2,*)的情况，二分查找，注意奇怪的边界情况</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/longest-palindromic-substring" target="_blank" rel="external">Longest Palindromic Substring</a></p>
-<p>$O(n)$，强上manacher算法</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/zigzag-conversion" target="_blank" rel="external">ZigZag Conversion</a></p>
-<p>手动模拟一下“ZIGZAG”的样子，模拟过程</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/reverse-integer" target="_blank" rel="external">Reverse Integer</a></p>
-<p>按位取出，重新分配，注意溢出问题</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/string-to-integer-atoi" target="_blank" rel="external">String to Integer (atoi)</a></p>
-<p>按位取出，重新分配，注意符号和溢出问题</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/palindrome-number" target="_blank" rel="external">Palindrome Number</a></p>
-<p>$O(n)$，从两边向中间判断</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/regular-expression-matching" target="_blank" rel="external">Regular Expression Matching</a></p>
-<p>$O(mn)$，DP，按下一个是否为’*’分类讨论</p>
-</li>
-</ol>
-<h2 id="11-20"><a href="#11-20" class="headerlink" title="11~20"></a>11~20</h2><ol>
-<li><p><a href="https://leetcode.com/problems/container-with-most-water" target="_blank" rel="external">Container With Most Water</a></p>
-<p>$O(n)$，two pointers，移动高度较小的指针，使结果尽量大。</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/integer-to-roman" target="_blank" rel="external">Integer to Roman</a></p>
-<p>模拟题，按照罗马数字的规则追加相应的字符串。</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/roman-to-integer" target="_blank" rel="external">Roman to Integer</a></p>
-<p>模拟题，按照罗马数字的规则加上相应的数字。</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/longest-common-prefix" target="_blank" rel="external">Longest Common Prefix</a></p>
-<p>模拟题，按照长度排序，然后搜索最短的字符串最大能匹配到所有的字符串的第多少个字符。</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/3sum" target="_blank" rel="external">3Sum</a></p>
-<p>$O(n^2)$，two pointers，枚举一个数，然后在后面的序列寻找满足的两个数，注意去重。</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/3sum-closest" target="_blank" rel="external">3Sum Closest</a></p>
-<p>与3Sum相同， 只是记录的时候判断并记录距离最小的值。</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number" target="_blank" rel="external">Letter Combinations of a Phone Number</a></p>
-<p>模拟题，每次循环往上次生成的序列中的每个元素尾部追加相应字符。</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/4sum" target="_blank" rel="external">4Sum</a></p>
-<p>与3Sum相同，只是需要枚举两个值。</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list" target="_blank" rel="external">Remove Nth Node From End of List</a></p>
-<p>简单的链表操作，注意删除首节点的情况。</p>
-</li>
-<li><p><a href="https://leetcode.com/problems/valid-parentheses" target="_blank" rel="external">Valid Parentheses</a></p>
-<p>使用一个栈维护一下之前的左括号，按照右括号判断，若无对应的左括号则无法匹配。</p>
-</li>
-</ol>
-<h2 id="21-30"><a href="#21-30" class="headerlink" title="21-30"></a>21-30</h2><p>to be continued…</p>
+        <p>Raft 是一种为了管理复制日志的一致性算法。它提供了和 Paxos 算法相同的功能和性能，但是它的算法结构和 Paxos 不同，使得 Raft 算法更加容易理解并且更容易构建实际的系统。为了提升可理解性，Raft 将一致性算法分解成了几个关键模块，例如领导人选举、日志复制和安全性。同时它通过实施一个更强的一致性来减少需要考虑的状态的数量。Raft 算法还包括一个新的机制来允许集群成员的动态改变，它利用重叠的大多数来保证安全性。</p>
 
       
 
@@ -288,11 +215,11 @@ ga('send', 'pageview');
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">算法</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">leetcode</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Lab</a>
         		</li>
       		
 		</ul>
@@ -348,7 +275,7 @@ ga('send', 'pageview');
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://qzwlecr.github.io/2017/05/20/Leetcode一句话题解/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://qzwlecr.github.io/2017/07/19/Raft-一种易于理解的一致性算法-MIT-6-824-Lab-2/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -362,18 +289,18 @@ ga('send', 'pageview');
   
 <nav id="article-nav">
   
-    <a href="/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2017/07/21/Google-File-System-一个面向大数据的分布式文件系统/" id="article-nav-newer" class="article-nav-link-wrap">
       <i class="icon-circle-left"></i>
       <div class="article-nav-title">
         
-          MapReduce：大规模集群上的简单数据处理方式 &amp;&amp; MIT 6.824 Lab 1
+          Google File System：一个面向大规模数据密集型应用的分布式文件系统
         
       </div>
     </a>
   
   
-    <a href="/2017/05/17/NFC与门禁卡初探/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">NFC与门禁卡初探</div>
+    <a href="/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">MapReduce：大规模集群上的简单数据处理方式 &amp;&amp; MIT 6.824 Lab 1</div>
       <i class="icon-circle-right"></i>
     </a>
   
@@ -400,7 +327,7 @@ ga('send', 'pageview');
                 </span>
                 <span class="tooltip-content">
                     <div class="toc-article">
-                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-10"><span class="toc-number">1.</span> <span class="toc-text">1~10</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#11-20"><span class="toc-number">2.</span> <span class="toc-text">11~20</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#21-30"><span class="toc-number">3.</span> <span class="toc-text">21-30</span></a></li></ol>
+                    目录，不存在的…
                     </div>
                 </span>
             </div>
