@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://qzwlecr.github.io/"/>
-  <updated>2017-08-07T06:44:45.887Z</updated>
+  <updated>2017-08-07T06:55:27.984Z</updated>
   <id>http://qzwlecr.github.io/</id>
   
   <author>
@@ -20,7 +20,7 @@
     <link href="http://qzwlecr.github.io/2017/08/07/UniqueStudio-%E5%A4%8F%E4%BB%A4%E8%90%A5%E5%B0%8F%E7%BB%93/"/>
     <id>http://qzwlecr.github.io/2017/08/07/UniqueStudio-夏令营小结/</id>
     <published>2017-08-07T06:31:23.000Z</published>
-    <updated>2017-08-07T06:44:45.887Z</updated>
+    <updated>2017-08-07T06:55:27.984Z</updated>
     
     <content type="html"><![CDATA[<p>小小地总结一下过去的夏令营www假装记录下学的东西</p>
 <a id="more"></a>
@@ -28,7 +28,7 @@
 <p>读论文的话没什么问题，按着MIT 6.824 Schedule的Preparation读就是了，不会就查；反倒是Lab耗费了大量的时间，单单一个Lab 2，Debug时间大约在一周左右，感觉写的测试代码比最终代码还要长很多，陷入无限的绝望之中。两个Lab里踩的几个坑大概有：RPC不一定按照发送的时间顺序接收、加锁不注意的话很容易出现race condition、测试使用更大的election timeout会更容易选举成功、向ApplyCh写入时异步会出现顺序错乱、RPC发送结构体必须先注册再发送、interface要随时注意转换的情况。惨惨惨qaq…</p>
 <h2 id="镜像源部署"><a href="#镜像源部署" class="headerlink" title="镜像源部署"></a>镜像源部署</h2><p>莫名其妙接了一口锅，好好配置一下以前的脚本保证能用的就好，结果后来基本都是@Recolic重写了一套脚本在搞，我就变成了打杂选手233</p>
 <p>首先是rsync同步大文件的问题，加上–size-only参数情况就会好很多，主要是由于大文件的校验和在远端传输有一些缓慢造成的；其次是同步状态的更新问题，本来是学长写的渲染引擎，后来和前端交流了一下改成jinja2，再后来想了想又把它改成了PHP，本地读取文件状态。问题不算太多，还算比较顺利了。</p>
-<p>欢迎来玩：<a href="mirrors.hustunique.com">mirrors.hustunique.com</a></p>
+<p>欢迎来玩：<a href="http://mirrors.hustunique.com" target="_blank" rel="external">mirrors.hustunique.com</a></p>
 <h2 id="C语言课设"><a href="#C语言课设" class="headerlink" title="C语言课设"></a>C语言课设</h2><p>一个超级垃圾的学生作业管理系统，却强行搞了一个前后端分离的架构复习了一下网络通信和多线程，现在只写了一个开头，打算回家之后好好写完，顺便摸一波鱼，没什么难度就不说了。</p>
 <h2 id="Hack-Init"><a href="#Hack-Init" class="headerlink" title="Hack.Init()"></a>Hack.Init()</h2><p>中间的时候跑去上海参加了一下Hack.Init()，结识了来自各地的三个小哥，入手了一下Flask和Tensorflow做了一次API Caller，可以说是非常绝望了。我们做了一个智能硬件，用机器学习识别后方汽车和行驶方向，提醒驾驶员防止疲劳驾驶。可是最后因为串口通信和识别函数写炸的问题，并没有拿到奖，不过经历还是蛮开心的。就当去上海旅游了一趟。</p>
 <h2 id="Hackweek"><a href="#Hackweek" class="headerlink" title="Hackweek"></a>Hackweek</h2><p>由于某些不可言说的问题，实现了一套支持用户自定义代理认证和细节填充的软件，顺利拿到了内部Hackweek第一名，巨开心www服务端使用Go语言、客户端使用C++进行开发，方便跨平台移植，以后shadow*ocks没有了就靠自己写的了2333</p>
