@@ -15,7 +15,7 @@
 <meta property="og:url" content="http://qzwlecr.github.io/2017/10/30/在Docker中运行网易云音乐/index.html">
 <meta property="og:site_name" content="qzwlecr&#39;s Blog">
 <meta property="og:description" content="在Archlinux上的网易云音乐成功以白屏、歌词不显示、右键菜单崩溃宣告离开我的电脑之后，我发现Docker可以运行GUI程序，就用Docker成功运行了网易云音乐，造福一波Arch上的网易云音乐用户XD。">
-<meta property="og:updated_time" content="2017-10-30T13:01:17.978Z">
+<meta property="og:updated_time" content="2017-10-30T16:48:54.798Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Docker中运行网易云音乐">
 <meta name="twitter:description" content="在Archlinux上的网易云音乐成功以白屏、歌词不显示、右键菜单崩溃宣告离开我的电脑之后，我发现Docker可以运行GUI程序，就用Docker成功运行了网易云音乐，造福一波Arch上的网易云音乐用户XD。">
@@ -229,13 +229,13 @@ ga('send', 'pageview');
 <pre><code>-v $HOME/.config:/root/.config \
 -v $HOME/.cache:/root/.cache \
 -v $HOME/Music:/root/Music
-</code></pre><h2 id="打包上传"><a href="#打包上传" class="headerlink" title="打包上传"></a>打包上传</h2><p><code>PKGBUILD</code>并不难写，难写的是<code>.install</code>脚本，以前没有接触过所以不怎么了解。</p>
+</code></pre><h2 id="打包上传"><a href="#打包上传" class="headerlink" title="打包上传"></a>打包上传</h2><p><code>PKGBUILD</code>并不难写，不会写的是<code>.install</code>脚本，以前没有接触过所以不怎么了解。</p>
 <ul>
-<li><code>.install</code>脚本中不能出现任何和用户交互的命令，在这里吃了不少亏。</li>
-<li><code>PKGBUILD</code>中的函数是在<code>fakeroot</code>下运行的，但是<code>.install</code>并不是，可以理解为是在真实<code>sudo</code>下运行的脚本，所以什么都能做到w。</li>
-<li>要想使普通用户正常使用Docker，需要将其加入<code>docker</code>用户组中，但是刷新用户组只能通过重新登录来解决，为了方便起见，我甩给安装者一个Warning，并在之后的启动脚本中加入<code>sg</code>，避免了安装后的重启。</li>
+<li><code>.install</code>脚本中不能出现任何和用户交互的命令，差点被坑。</li>
+<li><code>PKGBUILD</code>中的函数是在<code>fakeroot</code>下运行的，但是<code>.install</code>并不是，可以理解为是在真实<code>sudo</code>环境下运行的脚本，所以什么都能做到w。</li>
+<li>要想使普通用户正常使用Docker，需要将其加入<code>docker</code>用户组中，但是刷新用户组只能通过重新登录来解决，为了方便起见，甩给安装者一个Warning，并在之后的启动脚本中加入<code>sg</code>，避免了安装后的重启。</li>
 </ul>
-<h2 id="大胜利"><a href="#大胜利" class="headerlink" title="大胜利"></a>大胜利</h2><p>然后就结束了，体验++，欢迎各位食用，<code>netease-cloud-music-docker-version</code>已加入AUR中。</p>
+<h2 id="大胜利"><a href="#大胜利" class="headerlink" title="大胜利"></a>大胜利</h2><p>然后就结束了，体验++，欢迎各位食用和提issue，<code>netease-cloud-music-docker-version</code>已加入AUR中。</p>
 <p>Github仓库地址：<a href="https://github.com/qzwlecr/netease-cloud-music-docker-version" target="_blank" rel="external">https://github.com/qzwlecr/netease-cloud-music-docker-version</a></p>
 
       
