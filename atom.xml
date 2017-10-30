@@ -47,74 +47,6 @@
   </entry>
   
   <entry>
-    <title>Google File System：一个面向大规模数据密集型应用的分布式文件系统</title>
-    <link href="http://qzwlecr.github.io/2017/07/21/Google-File-System-%E4%B8%80%E4%B8%AA%E9%9D%A2%E5%90%91%E5%A4%A7%E6%95%B0%E6%8D%AE%E7%9A%84%E5%88%86%E5%B8%83%E5%BC%8F%E6%96%87%E4%BB%B6%E7%B3%BB%E7%BB%9F/"/>
-    <id>http://qzwlecr.github.io/2017/07/21/Google-File-System-一个面向大数据的分布式文件系统/</id>
-    <published>2017-07-21T11:41:31.000Z</published>
-    <updated>2017-07-22T12:16:18.720Z</updated>
-    
-    <content type="html"><![CDATA[<p>Google File System是一个面向大规模数据密集型应用的、可伸缩的分布式文件系统。虽然它运行在廉价的硬件设备上，但是它依然了提供灾难冗余的能力，为大量客户机提供了高性能的服务。</p>
-<p>在了解完MapReduce的相关内容后，我阅读了GFS的论文，产生了一些自己的思考，在这里记录下来。</p>
-<a id="more"></a>
-<h2 id="设计思路"><a href="#设计思路" class="headerlink" title="设计思路"></a>设计思路</h2><ul>
-<li>组件崩溃被视为常态事件，而非意外事件。</li>
-<li>存储的文件非常巨大。</li>
-<li>绝大部分修改采用Append，而非Overwrite。</li>
-<li>主要包括大规模的顺序读取和小规模的随机读取。</li>
-<li>需要支持高效的原子性的并发操作，提供create（创建）、delete（删除）、open（打开）、close（关闭）、read（读取）、write（写入）、record append（记录追加）、snapshot（快照）操作。</li>
-</ul>
-<h2 id="设计架构"><a href="#设计架构" class="headerlink" title="设计架构"></a>设计架构</h2><p><img src="/images/GFS/1.png" alt="设计架构"></p>
-<p>GFS的架构由一个Master节点和多台Chunk服务器构成，并有若干Client与其交互。</p>
-<h3 id="特点概述"><a href="#特点概述" class="headerlink" title="特点概述"></a>特点概述</h3><ul>
-<li>文件分块（Chunk）。为了减少Client和Master的交互，减少网络压力，减小Metadata的大小，GFS中的Chunk为64MB，每块有一个唯一的64位标识符，由Master为Chunk在创建时分配，缺省状态下，每个Chunk被存储在三个机器上。</li>
-<li>元数据（Metadata）管理。由Master对命名空间、访问控制信息、文件和Chunk的映射关系、Chunk的存储位置进行管理米，通常情况下，Metadata存储于内存中（实际大小很小）。</li>
-<li>活动管理。由Master对Chunk租约（Lease）、Chunk迁移、孤儿Chunk的回收等进行管理，Master定期向Chunk服务器发送Heartbeat，更新相关信息。</li>
-<li>直接通信。Client与单一Master进行通信，获取元数据，之后直接与Chunk服务器进行通信，执行读写操作。</li>
-<li>不缓存数据。由于系统的特点，Client和Chunk服务器都不会对所存储的数据进行缓存，从而简化了设计。</li>
-<li>操作日志。操作日志包含了Metadata变更的历史记录，它表示了并发操作的逻辑时间线，可以和定期持久化到硬盘的Checkpoint一起被用做Master的灾难恢复。</li>
-<li>一致性保障。GFS实现了较为宽松的一致性保障机制，Master对命名空间的修改具有原子性，在串行成功操作时，写入和追加操作都是已定义的（一致并且客户端完全知晓所有的操作）；在并行成功操作时，写入是一致却未定义的，追加操作是部分不一致的；在错误操作时，写入和追加操作都是不一致的。</li>
-</ul>
-<h2 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h2><h2 id="Master"><a href="#Master" class="headerlink" title="Master"></a>Master</h2><ul>
-<li>未完待续……</li>
-</ul>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Google File System是一个面向大规模数据密集型应用的、可伸缩的分布式文件系统。虽然它运行在廉价的硬件设备上，但是它依然了提供灾难冗余的能力，为大量客户机提供了高性能的服务。&lt;/p&gt;
-&lt;p&gt;在了解完MapReduce的相关内容后，我阅读了GFS的论文，产生了一些自己的思考，在这里记录下来。&lt;/p&gt;
-    
-    </summary>
-    
-    
-      <category term="分布式" scheme="http://qzwlecr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Raft：一种易于理解的一致性算法 &amp;&amp; MIT 6.824 Lab 2</title>
-    <link href="http://qzwlecr.github.io/2017/07/19/Raft-%E4%B8%80%E7%A7%8D%E6%98%93%E4%BA%8E%E7%90%86%E8%A7%A3%E7%9A%84%E4%B8%80%E8%87%B4%E6%80%A7%E7%AE%97%E6%B3%95-MIT-6-824-Lab-2/"/>
-    <id>http://qzwlecr.github.io/2017/07/19/Raft-一种易于理解的一致性算法-MIT-6-824-Lab-2/</id>
-    <published>2017-07-19T13:17:03.000Z</published>
-    <updated>2017-07-19T14:47:06.927Z</updated>
-    
-    <content type="html"><![CDATA[<p>Raft 是一种为了管理复制日志的一致性算法。它提供了和 Paxos 算法相同的功能和性能，但是它的算法结构和 Paxos 不同，使得 Raft 算法更加容易理解并且更容易构建实际的系统。为了提升可理解性，Raft 将一致性算法分解成了几个关键模块，例如领导人选举、日志复制和安全性。同时它通过实施一个更强的一致性来减少需要考虑的状态的数量。Raft 算法还包括一个新的机制来允许集群成员的动态改变，它利用重叠的大多数来保证安全性。</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;Raft 是一种为了管理复制日志的一致性算法。它提供了和 Paxos 算法相同的功能和性能，但是它的算法结构和 Paxos 不同，使得 Raft 算法更加容易理解并且更容易构建实际的系统。为了提升可理解性，Raft 将一致性算法分解成了几个关键模块，例如领导人选举、日志复制
-    
-    </summary>
-    
-    
-      <category term="分布式" scheme="http://qzwlecr.github.io/tags/%E5%88%86%E5%B8%83%E5%BC%8F/"/>
-    
-      <category term="Lab" scheme="http://qzwlecr.github.io/tags/Lab/"/>
-    
-  </entry>
-  
-  <entry>
     <title>MapReduce：大规模集群上的简单数据处理方式 &amp;&amp; MIT 6.824 Lab 1</title>
     <link href="http://qzwlecr.github.io/2017/06/12/MapReduce-%E5%A4%A7%E8%A7%84%E6%A8%A1%E9%9B%86%E7%BE%A4%E4%B8%8A%E7%9A%84%E7%AE%80%E5%8D%95%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F-MIT-6.824-Lab-1/"/>
     <id>http://qzwlecr.github.io/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/</id>
@@ -354,26 +286,6 @@
       <category term="NFC" scheme="http://qzwlecr.github.io/tags/NFC/"/>
     
       <category term="hack" scheme="http://qzwlecr.github.io/tags/hack/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>HelloWorld</title>
-    <link href="http://qzwlecr.github.io/2017/02/27/HelloWorld/"/>
-    <id>http://qzwlecr.github.io/2017/02/27/HelloWorld/</id>
-    <published>2017-02-27T13:51:58.000Z</published>
-    <updated>2017-07-17T06:19:20.927Z</updated>
-    
-    <content type="html"><![CDATA[<p>啊小红红真可爱。<br>说完啦。<br>hello,world!!!!</p>
-]]></content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;啊小红红真可爱。&lt;br&gt;说完啦。&lt;br&gt;hello,world!!!!&lt;/p&gt;
-
-    
-    </summary>
-    
     
   </entry>
   
