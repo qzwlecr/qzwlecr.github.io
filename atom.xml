@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://qzwlecr.github.io/"/>
-  <updated>2017-11-01T14:41:32.765Z</updated>
+  <updated>2017-11-01T14:42:52.705Z</updated>
   <id>http://qzwlecr.github.io/</id>
   
   <author>
@@ -20,10 +20,11 @@
     <link href="http://qzwlecr.github.io/2017/10/31/Go%E8%AF%AD%E8%A8%80net%E5%8C%85%E9%9C%80%E8%A6%81%E6%B3%A8%E6%84%8F%E7%9A%84%E8%8B%A5%E5%B9%B2%E9%97%AE%E9%A2%98/"/>
     <id>http://qzwlecr.github.io/2017/10/31/Go语言net包需要注意的若干问题/</id>
     <published>2017-10-31T11:40:51.000Z</published>
-    <updated>2017-11-01T14:41:32.765Z</updated>
+    <updated>2017-11-01T14:42:52.705Z</updated>
     
     <content type="html"><![CDATA[<p>暑假开始和朋友一起实现了一套代理服务器和客户端，支持用户自定义加密细节。服务器由Go写成，客户端由C++写成，用户自定义模块为C语言的动态链接库。</p>
 <p>最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。</p>
+<a id="more"></a>
 <h2 id="net-Conn-的阻塞问题"><a href="#net-Conn-的阻塞问题" class="headerlink" title="net.Conn 的阻塞问题"></a><code>net.Conn</code> 的阻塞问题</h2><p>目前主流的Web Server主要是采用IO多路复用+非阻塞的架构，但是这给使用者带来了比较大的复杂度，因此Go语言将其集成在Runtime中，使<code>socket</code>在用户层的行为与阻塞相同。事实上，这种阻塞是Go Runtime中的<code>netpoller</code>模拟出来的，它截获了底层系统调用的返回值，并通过<code>goroutine</code>调度使非阻塞表现为阻塞。</p>
 <p>此处应注意，Go中的<code>socket</code>与C语言的<code>socket</code>的不同之处。</p>
 <h2 id="net-Conn-的读写问题"><a href="#net-Conn-的读写问题" class="headerlink" title="net.Conn 的读写问题"></a><code>net.Conn</code> 的读写问题</h2><p>首先要注意到，Read方法和Write方法并不阻塞到读写完指定的字符个数，而是尝试读写后直接返回，因此，尤其对于Read方法，没有读完指定的字符也会正常返回，这时应该使用循环的方式，每次尝试把没读到的字符读完。一定要记得处理已读到的字符时使用Read的返回值，即不一定读满。（两次SSL握手失败都是这个原因）</p>
@@ -35,7 +36,7 @@
     <summary type="html">
     
       &lt;p&gt;暑假开始和朋友一起实现了一套代理服务器和客户端，支持用户自定义加密细节。服务器由Go写成，客户端由C++写成，用户自定义模块为C语言的动态链接库。&lt;/p&gt;
-&lt;p&gt;最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。&lt;
+&lt;p&gt;最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。&lt;/p&gt;
     
     </summary>
     

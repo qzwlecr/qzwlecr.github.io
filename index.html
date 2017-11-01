@@ -199,13 +199,9 @@ ga('send', 'pageview');
       
         <p>暑假开始和朋友一起实现了一套代理服务器和客户端，支持用户自定义加密细节。服务器由Go写成，客户端由C++写成，用户自定义模块为C语言的动态链接库。</p>
 <p>最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。</p>
-<h2 id="net-Conn-的阻塞问题"><a href="#net-Conn-的阻塞问题" class="headerlink" title="net.Conn 的阻塞问题"></a><code>net.Conn</code> 的阻塞问题</h2><p>目前主流的Web Server主要是采用IO多路复用+非阻塞的架构，但是这给使用者带来了比较大的复杂度，因此Go语言将其集成在Runtime中，使<code>socket</code>在用户层的行为与阻塞相同。事实上，这种阻塞是Go Runtime中的<code>netpoller</code>模拟出来的，它截获了底层系统调用的返回值，并通过<code>goroutine</code>调度使非阻塞表现为阻塞。</p>
-<p>此处应注意，Go中的<code>socket</code>与C语言的<code>socket</code>的不同之处。</p>
-<h2 id="net-Conn-的读写问题"><a href="#net-Conn-的读写问题" class="headerlink" title="net.Conn 的读写问题"></a><code>net.Conn</code> 的读写问题</h2><p>首先要注意到，Read方法和Write方法并不阻塞到读写完指定的字符个数，而是尝试读写后直接返回，因此，尤其对于Read方法，没有读完指定的字符也会正常返回，这时应该使用循环的方式，每次尝试把没读到的字符读完。一定要记得处理已读到的字符时使用Read的返回值，即不一定读满。（两次SSL握手失败都是这个原因）</p>
-<p>还有另外的方法，可以用它所继承的<code>io.ReadFull</code>来处理，<code>io.ReadFull</code>内封装了相关的处理，直到读完指定的字符才会返回。</p>
-<h2 id="channel的关闭导致的内存泄漏问题"><a href="#channel的关闭导致的内存泄漏问题" class="headerlink" title="channel的关闭导致的内存泄漏问题"></a><code>channel</code>的关闭导致的内存泄漏问题</h2><p>在读写时，为了保证连接的正常关闭，我使用一个<code>channel</code>表示连接是否为关闭状态，只有当读写都关闭时<code>channel</code>才会关闭，可是这时由于向对方已经关闭的<code>socket</code> <code>Write</code>并不会产生错误，导致很多网络连接最终无法关闭，迫于无奈我把代理的四个方向合并为两个方向，使双向的连接都正常关闭。</p>
-<p>要知道，<code>channel</code>也是会占用内存的，如果未关闭的个数太多，会产生严重的内存泄漏，这里我不优雅地使用超时来解决，后期可以以心跳包的形式解决。</p>
-
+        
+          <a class="article-more-a" href="/2017/10/31/Go语言net包需要注意的若干问题/#more">more >></a>
+        
       
 
       
@@ -778,19 +774,19 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Lab</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
               </li>
              
               <li class="article-tag-list-item">

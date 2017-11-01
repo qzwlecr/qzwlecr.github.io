@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://qzwlecr.github.io">
   <title>Go语言net包需要注意的若干问题 | qzwlecr&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="暑假开始和朋友一起实现了一套代理服务器和客户端，支持用户自定义加密细节。服务器由Go写成，客户端由C++写成，用户自定义模块为C语言的动态链接库。 最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。 net.Conn 的阻塞问题目前主流的Web Server主要是采用IO多路复用+非阻塞的架构，但是这给使用者带来了比较大的复杂度，因此Go">
+  <meta name="description" content="暑假开始和朋友一起实现了一套代理服务器和客户端，支持用户自定义加密细节。服务器由Go写成，客户端由C++写成，用户自定义模块为C语言的动态链接库。 最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。">
 <meta name="keywords" content="Go,网络">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Go语言net包需要注意的若干问题">
 <meta property="og:url" content="http://qzwlecr.github.io/2017/10/31/Go语言net包需要注意的若干问题/index.html">
 <meta property="og:site_name" content="qzwlecr&#39;s Blog">
-<meta property="og:description" content="暑假开始和朋友一起实现了一套代理服务器和客户端，支持用户自定义加密细节。服务器由Go写成，客户端由C++写成，用户自定义模块为C语言的动态链接库。 最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。 net.Conn 的阻塞问题目前主流的Web Server主要是采用IO多路复用+非阻塞的架构，但是这给使用者带来了比较大的复杂度，因此Go">
-<meta property="og:updated_time" content="2017-11-01T14:41:32.765Z">
+<meta property="og:description" content="暑假开始和朋友一起实现了一套代理服务器和客户端，支持用户自定义加密细节。服务器由Go写成，客户端由C++写成，用户自定义模块为C语言的动态链接库。 最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。">
+<meta property="og:updated_time" content="2017-11-01T14:42:52.705Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Go语言net包需要注意的若干问题">
-<meta name="twitter:description" content="暑假开始和朋友一起实现了一套代理服务器和客户端，支持用户自定义加密细节。服务器由Go写成，客户端由C++写成，用户自定义模块为C语言的动态链接库。 最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。 net.Conn 的阻塞问题目前主流的Web Server主要是采用IO多路复用+非阻塞的架构，但是这给使用者带来了比较大的复杂度，因此Go">
+<meta name="twitter:description" content="暑假开始和朋友一起实现了一套代理服务器和客户端，支持用户自定义加密细节。服务器由Go写成，客户端由C++写成，用户自定义模块为C语言的动态链接库。 最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。">
   
     <link rel="alternative" href="/atom.xml" title="qzwlecr&#39;s Blog" type="application/atom+xml">
   
@@ -199,6 +199,7 @@ ga('send', 'pageview');
       
         <p>暑假开始和朋友一起实现了一套代理服务器和客户端，支持用户自定义加密细节。服务器由Go写成，客户端由C++写成，用户自定义模块为C语言的动态链接库。</p>
 <p>最近加入了一些新功能，对代码进行了重构，在这个过程中遇到了一些使用net包进行TCP网络通信的问题，列举如下。</p>
+<a id="more"></a>
 <h2 id="net-Conn-的阻塞问题"><a href="#net-Conn-的阻塞问题" class="headerlink" title="net.Conn 的阻塞问题"></a><code>net.Conn</code> 的阻塞问题</h2><p>目前主流的Web Server主要是采用IO多路复用+非阻塞的架构，但是这给使用者带来了比较大的复杂度，因此Go语言将其集成在Runtime中，使<code>socket</code>在用户层的行为与阻塞相同。事实上，这种阻塞是Go Runtime中的<code>netpoller</code>模拟出来的，它截获了底层系统调用的返回值，并通过<code>goroutine</code>调度使非阻塞表现为阻塞。</p>
 <p>此处应注意，Go中的<code>socket</code>与C语言的<code>socket</code>的不同之处。</p>
 <h2 id="net-Conn-的读写问题"><a href="#net-Conn-的读写问题" class="headerlink" title="net.Conn 的读写问题"></a><code>net.Conn</code> 的读写问题</h2><p>首先要注意到，Read方法和Write方法并不阻塞到读写完指定的字符个数，而是尝试读写后直接返回，因此，尤其对于Read方法，没有读完指定的字符也会正常返回，这时应该使用循环的方式，每次尝试把没读到的字符读完。一定要记得处理已读到的字符时使用Read的返回值，即不一定读满。（两次SSL握手失败都是这个原因）</p>
@@ -456,19 +457,19 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Lab</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
               </li>
              
               <li class="article-tag-list-item">
