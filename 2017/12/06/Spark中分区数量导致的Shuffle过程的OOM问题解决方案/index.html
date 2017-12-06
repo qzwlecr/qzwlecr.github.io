@@ -6,17 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://qzwlecr.github.io">
-  <title>Tag: 分布式 | qzwlecr&#39;s Blog</title>
+  <title>Spark中分区数量导致的Shuffle过程的OOM问题解决方案 | qzwlecr&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="一个辣鸡选手的自娱自乐">
-<meta property="og:type" content="website">
-<meta property="og:title" content="qzwlecr&#39;s Blog">
-<meta property="og:url" content="http://qzwlecr.github.io/tags/分布式/index.html">
+  <meta name="description" content="在参加全国高校云计算应用创新大赛的过程中，我实现了分布式FP-Growth算法，但是在运行过程中一直出现OOM的问题，求助StackOverFlow无解后，我对这个问题进行了探究，发现其原因，解决方案如下。">
+<meta name="keywords" content="Spark,云计算,调优">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Spark中分区数量导致的Shuffle过程的OOM问题解决方案">
+<meta property="og:url" content="http://qzwlecr.github.io/2017/12/06/Spark中分区数量导致的Shuffle过程的OOM问题解决方案/index.html">
 <meta property="og:site_name" content="qzwlecr&#39;s Blog">
-<meta property="og:description" content="一个辣鸡选手的自娱自乐">
+<meta property="og:description" content="在参加全国高校云计算应用创新大赛的过程中，我实现了分布式FP-Growth算法，但是在运行过程中一直出现OOM的问题，求助StackOverFlow无解后，我对这个问题进行了探究，发现其原因，解决方案如下。">
+<meta property="og:updated_time" content="2017-12-06T14:36:42.807Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="qzwlecr&#39;s Blog">
-<meta name="twitter:description" content="一个辣鸡选手的自娱自乐">
+<meta name="twitter:title" content="Spark中分区数量导致的Shuffle过程的OOM问题解决方案">
+<meta name="twitter:description" content="在参加全国高校云计算应用创新大赛的过程中，我实现了分布式FP-Growth算法，但是在运行过程中一直出现OOM的问题，求助StackOverFlow无解后，我对这个问题进行了探究，发现其原因，解决方案如下。">
   
     <link rel="alternative" href="/atom.xml" title="qzwlecr&#39;s Blog" type="application/atom+xml">
   
@@ -175,64 +177,170 @@ ga('send', 'pageview');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-Spark中分区数量导致的Shuffle过程的OOM问题解决方案" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/" class="archive-article-date">
-  	<time datetime="2017-06-12T03:36:28.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-06-12</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/">MapReduce：大规模集群上的简单数据处理方式 &amp;&amp; MIT 6.824 Lab 1</a>
+    <h1 class="article-title" itemprop="name">
+      Spark中分区数量导致的Shuffle过程的OOM问题解决方案
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/12/06/Spark中分区数量导致的Shuffle过程的OOM问题解决方案/" class="archive-article-date">
+  	<time datetime="2017-12-06T13:29:57.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-12-06</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在参加全国高校云计算应用创新大赛的过程中，我实现了分布式FP-Growth算法，但是在运行过程中一直出现OOM的问题，求助StackOverFlow无解后，我对这个问题进行了探究，发现其原因，解决方案如下。</p>
+<a id="more"></a>
+<p>首先需要明确<code>Spark</code>的运行机制。<code>Spark</code>的<code>RDD</code>可以根据需要被分成多个区，称为<code>partition</code>，这些区被分布在多个<code>Spark</code>节点上，分区之间交换数据只能通过网络通信的方式。当分区的数据排布无法满足需要执行的函数要求时，比如<code>reduceByKey</code>等，数据会进行重新排布，这个过程称为<code>Shuffle</code>。</p>
+<p>在<code>Shuffle</code>的过程中，可能会出现<code>Out Of Memory</code>的问题，但是这不是因为<code>RDD</code>无法加载到内存，因为根据<code>Spark</code>的日志来看，每个节点仍有20G的剩余内存，排除这一问题，我查看了<code>Spark</code>的官方文档，<code>Shuffle</code>操作为了完成分组会为每一个任务创建哈希表，在这一过程中哈希表可能会非常大，导致<code>JVM</code>报错，这也和我们所观察到的函数调用栈一致。</p>
+<p>因此，为了解决这一问题，除了改进分区方式，只能通过增加并行度的方式，即增加分区数量，使每个分区的数据量非常小。</p>
+<p>这里存在一个可能会降低运行效率的问题，即并行度超出CPU实际核数，但是<code>Spark</code>事实上可以非常有效地支持段时间任务，它会通过复用<code>JVM</code>的方式减小任务启动的消耗，在本题中此时间可以忽略不计，因此该问题不存在。</p>
+
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">分布式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color1">Spark</a>
         		</li>
       		 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">Lab</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">云计算</a>
+        		</li>
+      		 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">调优</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://qzwlecr.github.io/2017/12/06/Spark中分区数量导致的Shuffle过程的OOM问题解决方案/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/10/31/Go语言net包需要注意的若干问题/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Go语言net包需要注意的若干问题</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+        <div class="toc-container tooltip-left">
+            <i class="icon-font icon-category"></i>
+            <div class="tooltip tooltip-east">
+                <span class="tooltip-item">
+                </span>
+                <span class="tooltip-content">
+                    <div class="toc-article">
+                    目录，不存在的…
+                    </div>
+                </span>
+            </div>
+        </div>
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
 
 
           </div>
@@ -255,9 +363,9 @@ ga('send', 'pageview');
 	var yiliaConfig = {
 		mathjax: true,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: true,
 		toc_hide_index: false,

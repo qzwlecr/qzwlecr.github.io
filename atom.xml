@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://qzwlecr.github.io/"/>
-  <updated>2017-11-01T14:42:52.705Z</updated>
+  <updated>2017-12-06T14:36:42.807Z</updated>
   <id>http://qzwlecr.github.io/</id>
   
   <author>
@@ -14,6 +14,36 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Spark中分区数量导致的Shuffle过程的OOM问题解决方案</title>
+    <link href="http://qzwlecr.github.io/2017/12/06/Spark%E4%B8%AD%E5%88%86%E5%8C%BA%E6%95%B0%E9%87%8F%E5%AF%BC%E8%87%B4%E7%9A%84Shuffle%E8%BF%87%E7%A8%8B%E7%9A%84OOM%E9%97%AE%E9%A2%98%E8%A7%A3%E5%86%B3%E6%96%B9%E6%A1%88/"/>
+    <id>http://qzwlecr.github.io/2017/12/06/Spark中分区数量导致的Shuffle过程的OOM问题解决方案/</id>
+    <published>2017-12-06T13:29:57.000Z</published>
+    <updated>2017-12-06T14:36:42.807Z</updated>
+    
+    <content type="html"><![CDATA[<p>在参加全国高校云计算应用创新大赛的过程中，我实现了分布式FP-Growth算法，但是在运行过程中一直出现OOM的问题，求助StackOverFlow无解后，我对这个问题进行了探究，发现其原因，解决方案如下。</p>
+<a id="more"></a>
+<p>首先需要明确<code>Spark</code>的运行机制。<code>Spark</code>的<code>RDD</code>可以根据需要被分成多个区，称为<code>partition</code>，这些区被分布在多个<code>Spark</code>节点上，分区之间交换数据只能通过网络通信的方式。当分区的数据排布无法满足需要执行的函数要求时，比如<code>reduceByKey</code>等，数据会进行重新排布，这个过程称为<code>Shuffle</code>。</p>
+<p>在<code>Shuffle</code>的过程中，可能会出现<code>Out Of Memory</code>的问题，但是这不是因为<code>RDD</code>无法加载到内存，因为根据<code>Spark</code>的日志来看，每个节点仍有20G的剩余内存，排除这一问题，我查看了<code>Spark</code>的官方文档，<code>Shuffle</code>操作为了完成分组会为每一个任务创建哈希表，在这一过程中哈希表可能会非常大，导致<code>JVM</code>报错，这也和我们所观察到的函数调用栈一致。</p>
+<p>因此，为了解决这一问题，除了改进分区方式，只能通过增加并行度的方式，即增加分区数量，使每个分区的数据量非常小。</p>
+<p>这里存在一个可能会降低运行效率的问题，即并行度超出CPU实际核数，但是<code>Spark</code>事实上可以非常有效地支持段时间任务，它会通过复用<code>JVM</code>的方式减小任务启动的消耗，在本题中此时间可以忽略不计，因此该问题不存在。</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;在参加全国高校云计算应用创新大赛的过程中，我实现了分布式FP-Growth算法，但是在运行过程中一直出现OOM的问题，求助StackOverFlow无解后，我对这个问题进行了探究，发现其原因，解决方案如下。&lt;/p&gt;
+    
+    </summary>
+    
+    
+      <category term="Spark" scheme="http://qzwlecr.github.io/tags/Spark/"/>
+    
+      <category term="云计算" scheme="http://qzwlecr.github.io/tags/%E4%BA%91%E8%AE%A1%E7%AE%97/"/>
+    
+      <category term="调优" scheme="http://qzwlecr.github.io/tags/%E8%B0%83%E4%BC%98/"/>
+    
+  </entry>
   
   <entry>
     <title>Go语言net包需要注意的若干问题</title>
