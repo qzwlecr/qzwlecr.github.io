@@ -5,22 +5,22 @@
   
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
-  <link rel="dns-prefetch" href="http://qzwlecr.github.io">
+  <link rel="dns-prefetch" href="http://blog.qzwlecr.com">
   <title>MapReduce：大规模集群上的简单数据处理方式 &amp;&amp; MIT 6.824 Lab 1 | qzwlecr&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="MapReduce是Google公司的Jeffrey和Sanjay提出的一个编程模型，主要用于大规模数据集的并行运算。它吸收了函数式编程语言中的Map和Reduce，通过Map处理原始键值对生成中间键值对，通过Reduce合并相同中间键对应的值。这一特性符合很多现实生活中的场景。 这种编程模型下的程序可以并行化地在大规模集群上运行，而在这一过程中用户却不需考虑输入数据的划分、程序的运行安排、节点故">
 <meta name="keywords" content="分布式,Lab">
 <meta property="og:type" content="article">
 <meta property="og:title" content="MapReduce：大规模集群上的简单数据处理方式 &amp;&amp; MIT 6.824 Lab 1">
-<meta property="og:url" content="http://qzwlecr.github.io/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/index.html">
+<meta property="og:url" content="http://blog.qzwlecr.com/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/index.html">
 <meta property="og:site_name" content="qzwlecr&#39;s Blog">
 <meta property="og:description" content="MapReduce是Google公司的Jeffrey和Sanjay提出的一个编程模型，主要用于大规模数据集的并行运算。它吸收了函数式编程语言中的Map和Reduce，通过Map处理原始键值对生成中间键值对，通过Reduce合并相同中间键对应的值。这一特性符合很多现实生活中的场景。 这种编程模型下的程序可以并行化地在大规模集群上运行，而在这一过程中用户却不需考虑输入数据的划分、程序的运行安排、节点故">
-<meta property="og:image" content="http://qzwlecr.github.io/images/Map-Reduce/overview.png">
+<meta property="og:image" content="http://blog.qzwlecr.com/images/Map-Reduce/overview.png">
 <meta property="og:updated_time" content="2017-07-20T05:15:04.180Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="MapReduce：大规模集群上的简单数据处理方式 &amp;&amp; MIT 6.824 Lab 1">
 <meta name="twitter:description" content="MapReduce是Google公司的Jeffrey和Sanjay提出的一个编程模型，主要用于大规模数据集的并行运算。它吸收了函数式编程语言中的Map和Reduce，通过Map处理原始键值对生成中间键值对，通过Reduce合并相同中间键对应的值。这一特性符合很多现实生活中的场景。 这种编程模型下的程序可以并行化地在大规模集群上运行，而在这一过程中用户却不需考虑输入数据的划分、程序的运行安排、节点故">
-<meta name="twitter:image" content="http://qzwlecr.github.io/images/Map-Reduce/overview.png">
+<meta name="twitter:image" content="http://blog.qzwlecr.com/images/Map-Reduce/overview.png">
   
     <link rel="alternative" href="/atom.xml" title="qzwlecr&#39;s Blog" type="application/atom+xml">
   
@@ -309,7 +309,7 @@ ga('send', 'pageview');
     <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
     <p>扫一扫，分享到微信</p>
     <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://qzwlecr.github.io/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/" alt="微信分享二维码">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://blog.qzwlecr.com/2017/06/12/MapReduce-大规模集群上的简单数据处理方式-MIT-6.824-Lab-1/" alt="微信分享二维码">
     </div>
 </div>
 
@@ -500,19 +500,19 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
-              </li>
-             
-              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">分布式</a>
               </li>
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color4">Lab</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
               </li>
              
               <li class="article-tag-list-item">
