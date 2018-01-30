@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://blog.qzwlecr.com/"/>
-  <updated>2018-01-16T10:19:28.632Z</updated>
+  <updated>2018-01-30T04:15:48.493Z</updated>
   <id>http://blog.qzwlecr.com/</id>
   
   <author>
@@ -14,6 +14,27 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Intel C++ Compiler优化参数笔记</title>
+    <link href="http://blog.qzwlecr.com/2018/01/30/ICC%E4%BC%98%E5%8C%96%E5%8F%82%E6%95%B0%E7%AC%94%E8%AE%B0/"/>
+    <id>http://blog.qzwlecr.com/2018/01/30/ICC优化参数笔记/</id>
+    <published>2018-01-30T04:12:58.000Z</published>
+    <updated>2018-01-30T04:15:48.493Z</updated>
+    
+    <content type="html"><![CDATA[<p>稍微阅读了一下Intel C++ Compiler的文档，发现了一些看起来比较有用的参数，之后调参的时候希望能用上w</p>
+<a id="more"></a>
+<p>-alias-const 指向const的指针不会是指向非const的指针的alias<br>-ansi-alias ANSI alias规则<br>-check-pointers 边界检查<br>-check-pointers-dangling 指针引用检查<br>-check-pointers-narrowing 指针域检查<br>-check-uninit 未初始化变量检查<br>-D 宏定义<br>-fast 最快速度<br>-fasm-blocks 内联汇编（MASM-style<br>-falign-loops -falign-functions 内存对齐<br>-fimf-absolute-error -fimf-accuracy-bits 数学库函数绝对误差/相对误差<br>-finline-functions 单文件函数内联<br>-finline-limit 内联函数最大大小<br>-fp-model 浮点数运算优化<br>-GF String Pool优化<br>-guide-opts 生成优化建议<br>-guide 指导自动向量化/自动并行化/数据传输<br>-inline-forceinline 强制内联<br>-inline-level 内联优化级别<br>-inline-max-size -inline-min-size …鬼参数<br>-ip 单文件的跨过程优化<br>-ipo 多文件的跨过程优化<br>-ipp 使用Intel IPP库的级别<br>-l 链接指定的库<br>-L 链接指定文件夹中的库<br>-mkl 使用MKL<br>-multiple-processes 多进程编译<br>-no-prec-div 浮点数除法优化<br>-no-prec-sqrt 浮点数开根优化<br>-o 指定输出文件<br>-O 0 1 2 3 （P155<br>-opt-report 优化报告<br>-parallel 自动并行化<br>-par-num-threads 线程个数<br>-par-schedule 循环调度算法<br>-pc 指定浮点数精度<br>-prof-… profile相关（PGO优化<br>-pthread 使用pthreads库<br>-S 生成汇编<br>-vec 向量化（O2以上自动开启<br>-W…. Warning的相关参数<br>-x 面向处理器特性<br>-xHost 面向处理器的最高的指令集</p>
+]]></content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;稍微阅读了一下Intel C++ Compiler的文档，发现了一些看起来比较有用的参数，之后调参的时候希望能用上w&lt;/p&gt;
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>2017 &amp;&amp; 2018</title>
