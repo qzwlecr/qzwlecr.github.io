@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.qzwlecr.com">
   <title>NFC与门禁卡初探 | qzwlecr&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -15,6 +15,7 @@
 <meta property="og:url" content="http://blog.qzwlecr.com/2017/05/17/NFC与门禁卡初探/index.html">
 <meta property="og:site_name" content="qzwlecr&#39;s Blog">
 <meta property="og:description" content="开学之后，学校寝室和启明学院都开始使用了以校园卡为载体的门禁服务，只有刷指定人员的校园卡才能进入。我对其原理产生了好奇，就趁机进行了一些研究。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog.qzwlecr.com/images/NFC-card/ID-information.jpg">
 <meta property="og:updated_time" content="2017-07-17T07:11:05.020Z">
 <meta name="twitter:card" content="summary">
@@ -52,7 +53,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -179,7 +180,7 @@ ga('send', 'pageview');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-NFC与门禁卡初探" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-NFC与门禁卡初探" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -253,15 +254,15 @@ ga('send', 'pageview');
 </ul>
 <h1 id="复制流程"><a href="#复制流程" class="headerlink" title="复制流程"></a>复制流程</h1><h2 id="初步分析"><a href="#初步分析" class="headerlink" title="初步分析"></a>初步分析</h2><p>由于采集门禁卡信息时，只需要提供学号和姓名，以及卡编号，无需其他信息，故推测门禁只是简单读取卡的ID，而不会去解密其他信息，只需要使用卡模拟模式，简单地模拟一个ID相同的卡即可。在网上查阅资料可得知，门禁卡的工作原理大多如此。</p>
 <h2 id="信息采集"><a href="#信息采集" class="headerlink" title="信息采集"></a>信息采集</h2><p>由于手头设备有限，只能用手机查看校园卡的ID信息。</p>
-<p><a href="https://play.google.com/store/apps/details?id=com.wakdev.wdnfc" target="_blank" rel="external">NFC Tools下载地址</a><br><img src="/images/NFC-card/ID-information.jpg" alt=""></p>
+<p><a href="https://play.google.com/store/apps/details?id=com.wakdev.wdnfc" target="_blank" rel="noopener">NFC Tools下载地址</a><br><img src="/images/NFC-card/ID-information.jpg" alt=""></p>
 <p>容易得到，Serial number处为形如<code>XX:XX:XX:XX</code>的ID（X为16进制数字）。这就是门禁所识别的ID。</p>
 <h2 id="信息查询"><a href="#信息查询" class="headerlink" title="信息查询"></a>信息查询</h2><p>查阅相关资料可以得知，NFC的相应配置保存在<code>/system/etc/libnfc-nxp.conf</code>或<code>/system/etc/libnfc-brcm.conf</code>中，具体的配置取决于NFC芯片的类型。</p>
 <p>手头有一部Nexus 6P，其芯片为NXP PN548，故阅读了<code>libnfc-nxp.conf</code>，通过注释从中发现了需要更改的配置。在文件的607行，有Core configuration settings中的<code>LA_NFCID1</code>，代表了手机NFC的NFCA-ID，这正是门禁系统能识别的ID。这里，33表示配置的类型，04表示后面所跟的配置字节数，后面的四个字节为数据。</p>
-<figure class="highlight xml"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">###############################################################################</div><div class="line"># Core configuration settings</div><div class="line"># It includes</div><div class="line"># 18        - Poll Mode NFC-F:   PF_BIT_RATE</div><div class="line"># 21        - Poll Mode ISO-DEP: PI_BIT_RATE</div><div class="line"># 28        - Poll Mode NFC-DEP: PN_NFC_DEP_SPEED</div><div class="line"># 30        - Lis. Mode NFC-A:   LA_BIT_FRAME_SDD</div><div class="line"># 31        - Lis. Mode NFC-A:   LA_PLATFORM_CONFIG</div><div class="line"># 33        - Lis. Mode NFC-A:   LA_NFCID1</div><div class="line"># 50        - Lis. Mode NFC-F:   LF_PROTOCOL_TYPE</div><div class="line"># 54        - Lis. Mode NFC-F:   LF_CON_BITR_F</div><div class="line"># 5B        - Lis. Mode ISO-DEP: LI_BIT_RATE</div><div class="line"># 60        - Lis. Mode NFC-DEP: LN_WT</div><div class="line"># 80        - Other Param.:      RF_FIELD_INFO</div><div class="line"># 81        - Other Param.:      RF_NFCEE_ACTION</div><div class="line"># 82        - Other Param.:      NFCDEP_OP</div><div class="line">NXP_CORE_CONF=&#123;20, 02, 2B, 0D,</div><div class="line">        18, 01, 01,</div><div class="line">        21, 01, 00,</div><div class="line">        28, 01, 00,</div><div class="line">        30, 01, 08,</div><div class="line">        31, 01, 03,</div><div class="line">        33, 04, 00, 00, 00, 00,</div><div class="line">        50, 01, 02,</div><div class="line">        54, 01, 06,</div><div class="line">        5B, 01, 00,</div><div class="line">        60, 01, 0E,</div><div class="line">        80, 01, 01,</div><div class="line">        81, 01, 01,</div><div class="line">        82, 01, 0E</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">###############################################################################</span><br><span class="line"># Core configuration settings</span><br><span class="line"># It includes</span><br><span class="line"># 18        - Poll Mode NFC-F:   PF_BIT_RATE</span><br><span class="line"># 21        - Poll Mode ISO-DEP: PI_BIT_RATE</span><br><span class="line"># 28        - Poll Mode NFC-DEP: PN_NFC_DEP_SPEED</span><br><span class="line"># 30        - Lis. Mode NFC-A:   LA_BIT_FRAME_SDD</span><br><span class="line"># 31        - Lis. Mode NFC-A:   LA_PLATFORM_CONFIG</span><br><span class="line"># 33        - Lis. Mode NFC-A:   LA_NFCID1</span><br><span class="line"># 50        - Lis. Mode NFC-F:   LF_PROTOCOL_TYPE</span><br><span class="line"># 54        - Lis. Mode NFC-F:   LF_CON_BITR_F</span><br><span class="line"># 5B        - Lis. Mode ISO-DEP: LI_BIT_RATE</span><br><span class="line"># 60        - Lis. Mode NFC-DEP: LN_WT</span><br><span class="line"># 80        - Other Param.:      RF_FIELD_INFO</span><br><span class="line"># 81        - Other Param.:      RF_NFCEE_ACTION</span><br><span class="line"># 82        - Other Param.:      NFCDEP_OP</span><br><span class="line">NXP_CORE_CONF=&#123;20, 02, 2B, 0D,</span><br><span class="line">        18, 01, 01,</span><br><span class="line">        21, 01, 00,</span><br><span class="line">        28, 01, 00,</span><br><span class="line">        30, 01, 08,</span><br><span class="line">        31, 01, 03,</span><br><span class="line">        33, 04, 00, 00, 00, 00,</span><br><span class="line">        50, 01, 02,</span><br><span class="line">        54, 01, 06,</span><br><span class="line">        5B, 01, 00,</span><br><span class="line">        60, 01, 0E,</span><br><span class="line">        80, 01, 01,</span><br><span class="line">        81, 01, 01,</span><br><span class="line">        82, 01, 0E</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="信息修改"><a href="#信息修改" class="headerlink" title="信息修改"></a>信息修改</h2><p>将上面获取到的ID插入配置文件中，重启手机NFC，即可完成修改。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/system/bin/sh</span></div><div class="line">sed -i <span class="string">'607s/^.*$/        33, 04, XX, XX, XX, XX,/'</span> /etc/libnfc-nxp.conf</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/system/bin/sh</span></span><br><span class="line">sed -i <span class="string">'607s/^.*$/        33, 04, XX, XX, XX, XX,/'</span> /etc/libnfc-nxp.conf</span><br></pre></td></tr></table></figure>
 <h2 id="批量修改"><a href="#批量修改" class="headerlink" title="批量修改"></a>批量修改</h2><p>尝试着写了批量修改的脚本，以完成某些特殊要求，但是由于安卓系统本身的限制，无法做到自动重启NFC，贴代码仅供参考。</p>
-<figure class="highlight sh"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#!/system/bin/sh</span></div><div class="line">setenforce 0</div><div class="line"><span class="built_in">echo</span> <span class="string">"SElinux disabled"</span></div><div class="line"><span class="comment">#disable SElinux</span></div><div class="line">mount -o rw,remount /system</div><div class="line"><span class="built_in">echo</span> <span class="string">"nfc disabled"</span></div><div class="line">service call nfc 5</div><div class="line">sleep 1</div><div class="line"><span class="comment">#first person</span></div><div class="line">sed -i <span class="string">'607s/^.*$/        33, 04, XX, XX, XX, XX,/'</span> /etc/libnfc-nxp.conf</div><div class="line">sleep 1</div><div class="line">service call nfc 6</div><div class="line"><span class="built_in">echo</span> <span class="string">"nfc enabled"</span></div><div class="line">sleep 5</div><div class="line">service call nfc 5</div><div class="line"><span class="built_in">echo</span> <span class="string">"nfc disabled"</span></div><div class="line">sleep 1</div><div class="line"><span class="comment">#second person</span></div><div class="line">sed -i <span class="string">'607s/^.*$/        33, 04, XX, XX, XX, XX,/'</span> /etc/libnfc-nxp.conf</div><div class="line">service call nfc 6</div><div class="line"><span class="built_in">echo</span> <span class="string">"nfc enabled"</span></div><div class="line">sleep 1</div><div class="line">setenforce 1</div></pre></td></tr></table></figure>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/system/bin/sh</span></span><br><span class="line">setenforce 0</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"SElinux disabled"</span></span><br><span class="line"><span class="comment">#disable SElinux</span></span><br><span class="line">mount -o rw,remount /system</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"nfc disabled"</span></span><br><span class="line">service call nfc 5</span><br><span class="line">sleep 1</span><br><span class="line"><span class="comment">#first person</span></span><br><span class="line">sed -i <span class="string">'607s/^.*$/        33, 04, XX, XX, XX, XX,/'</span> /etc/libnfc-nxp.conf</span><br><span class="line">sleep 1</span><br><span class="line">service call nfc 6</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"nfc enabled"</span></span><br><span class="line">sleep 5</span><br><span class="line">service call nfc 5</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"nfc disabled"</span></span><br><span class="line">sleep 1</span><br><span class="line"><span class="comment">#second person</span></span><br><span class="line">sed -i <span class="string">'607s/^.*$/        33, 04, XX, XX, XX, XX,/'</span> /etc/libnfc-nxp.conf</span><br><span class="line">service call nfc 6</span><br><span class="line"><span class="built_in">echo</span> <span class="string">"nfc enabled"</span></span><br><span class="line">sleep 1</span><br><span class="line">setenforce 1</span><br></pre></td></tr></table></figure>
 <h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>门禁使用易于复制的射频卡ID检测是极为不安全的，外来人员只需要注意到这一点就可以轻松地进入宿舍，同时，此功能还可以用来体育打卡、进入图书馆等，需要慎加利用。</p>
 
       
@@ -410,7 +411,7 @@ ga('send', 'pageview');
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 qzwlecr
+    		&copy; 2019 qzwlecr
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -510,15 +511,11 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">超算</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -530,11 +527,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Lab</a>
+                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -547,6 +544,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">调优</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Lab</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -570,7 +575,7 @@ MathJax.Hub.Queue(function() {
         </div>
         <ul class="search-ul">
           <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
-            缺失模块。<br/>1、请确保node版本大于6.2<br/>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            缺失模块。<br>1、请确保node版本大于6.2<br>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br> npm i hexo-generator-json-content --save<br><br>
             3、在根目录_config.yml里添加配置：
 <pre style="font-size: 12px;" q-show="jsonFail">
   jsonContent:

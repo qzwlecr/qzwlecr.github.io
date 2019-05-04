@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.qzwlecr.com">
   <title>在Docker中运行网易云音乐 | qzwlecr&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -15,6 +15,7 @@
 <meta property="og:url" content="http://blog.qzwlecr.com/2017/10/30/在Docker中运行网易云音乐/index.html">
 <meta property="og:site_name" content="qzwlecr&#39;s Blog">
 <meta property="og:description" content="在Archlinux上的网易云音乐成功以白屏、歌词不显示、右键菜单崩溃宣告离开我的电脑之后，我发现Docker可以运行GUI程序，就用Docker成功运行了网易云音乐，造福一波Arch上的网易云音乐用户XD。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-11-02T17:02:12.100Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在Docker中运行网易云音乐">
@@ -50,7 +51,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -177,7 +178,7 @@ ga('send', 'pageview');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-在Docker中运行网易云音乐" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-在Docker中运行网易云音乐" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -204,19 +205,19 @@ ga('send', 'pageview');
 <p>参数为：<code>-v /tmp/.X11-unix:/tmp/.X11-unix</code></p>
 <p>同时，为了使X Client能正常的找到X Server， 环境变量<code>$DISPLAY</code>也必须传入容器中。这个变量是X Window System 很魔幻的一个Feature，它的值为<code>hostname:sequence_number.screen_number</code>，通过它X Client才能够知道如何把X Network Traffic重定向到本地的X Server。</p>
 <p>参数为：<code>-e DISPLAY</code></p>
-<p>另外，为了使Docker容器中的用户能够正常访问，还需要<a href="https://wiki.archlinux.org/index.php/Xhost" target="_blank" rel="external">Xhost</a>提供本地的访问权限（这也是最终唯一的额外依赖包<a href="https://www.archlinux.org/packages/?name=xorg-xhost" target="_blank" rel="external">xorg-xhost</a>的来源）。</p>
+<p>另外，为了使Docker容器中的用户能够正常访问，还需要<a href="https://wiki.archlinux.org/index.php/Xhost" target="_blank" rel="noopener">Xhost</a>提供本地的访问权限（这也是最终唯一的额外依赖包<a href="https://www.archlinux.org/packages/?name=xorg-xhost" target="_blank" rel="noopener">xorg-xhost</a>的来源）。</p>
 <p>命令为：<code>xhost + local:</code></p>
 <p>这样就可以正常地显示啦w。</p>
 <h3 id="声音问题"><a href="#声音问题" class="headerlink" title="声音问题"></a>声音问题</h3><p>声音问题同理可得，通过查阅PulseAudio的文档，可以知道<code>$XDG_RUNTIME_DIR/pulse/native</code>需要挂载进容器中，而变量<code>$PULSE_SERVER</code>也必须传入容器中，原理不再赘述。为了使声音设备能够被正常访问，还需要把<code>/dev/snd</code>挂载进容器中。</p>
-<p>参数如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-v $&#123;XDG_RUNTIME_DIR&#125;/pulse/native:$&#123;XDG_RUNTIME_DIR&#125;/pulse/native \</div><div class="line">-e PULSE_SERVER=unix:$&#123;XDG_RUNTIME_DIR&#125;/pulse/native \</div><div class="line">--device /dev/snd</div></pre></td></tr></table></figure></p>
+<p>参数如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-v $&#123;XDG_RUNTIME_DIR&#125;/pulse/native:$&#123;XDG_RUNTIME_DIR&#125;/pulse/native \</span><br><span class="line">-e PULSE_SERVER=unix:$&#123;XDG_RUNTIME_DIR&#125;/pulse/native \</span><br><span class="line">--device /dev/snd</span><br></pre></td></tr></table></figure></p>
 <h3 id="网络问题"><a href="#网络问题" class="headerlink" title="网络问题"></a>网络问题</h3><p>由于容器需要与外部共享网络，这里使用Docker的参数<code>--ipc host</code>就可以完成。</p>
 <h3 id="指针问题"><a href="#指针问题" class="headerlink" title="指针问题"></a>指针问题</h3><p>XOrg默认的指针难看得令人发指= =！为了解决指针的问题，需要将用户的<code>/usr/share/icon</code>挂载到容器的相同位置，这样就可以使Docker中的GUI程序与系统环境共用鼠标指针。</p>
 <p>参数为：<code>-v /usr/share/icons:/usr/share/icons:ro</code></p>
 <h2 id="网易云音乐的依赖解决"><a href="#网易云音乐的依赖解决" class="headerlink" title="网易云音乐的依赖解决"></a>网易云音乐的依赖解决</h2><p>选用Ubuntu 16.04 作为Docker 的 Base。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">FROM docker.io/ubuntu:16.04</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">FROM docker.io/ubuntu:16.04</span><br></pre></td></tr></table></figure>
 <p>查看AUR中网易云音乐的依赖，并没有发现任何有用的信息，猜想着安了一个文泉驿的中文字体，然后把环境变量<code>LANG</code>设置成了中文，依然无法正常运行。</p>
 <p>对报错信息稍微搜索一下，发现使用D-Bus进行一些奇怪的通信，于是安装了<code>dbus-x11</code>和<code>packagekit</code>，又发现提示音导致的一些Warning，就安装了<code>libcanberra</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">apt-get install -y --no-install-recommends wget dbus-x11 libcanberra-gtk-module fonts-wqy-zenhei packagekit-gtk3-module</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">apt-get install -y --no-install-recommends wget dbus-x11 libcanberra-gtk-module fonts-wqy-zenhei packagekit-gtk3-module</span><br></pre></td></tr></table></figure>
 <p>其他的过程毫无悬念，按照正常<code>.deb</code>包安装即可2333</p>
 <h2 id="在Docker中运行网易云音乐"><a href="#在Docker中运行网易云音乐" class="headerlink" title="在Docker中运行网易云音乐"></a>在Docker中运行网易云音乐</h2><p>这是第一次完全靠自己手写Dockerfile，之前都是对着各种现成的Dockerfile Copy&amp;Paste，踩了一点坑QAQ。</p>
 <ul>
@@ -227,7 +228,7 @@ ga('send', 'pageview');
 </ul>
 <p>此外，配置文件夹、缓存文件夹和默认音乐文件夹也都挂载到相同位置。</p>
 <p>参数为：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">-v $HOME/.config:/root/.config \</div><div class="line">-v $HOME/.cache:/root/.cache \</div><div class="line">-v $HOME/Music:/root/Music</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">-v $HOME/.config:/root/.config \</span><br><span class="line">-v $HOME/.cache:/root/.cache \</span><br><span class="line">-v $HOME/Music:/root/Music</span><br></pre></td></tr></table></figure>
 <h2 id="PKGBUILD打包上传"><a href="#PKGBUILD打包上传" class="headerlink" title="PKGBUILD打包上传"></a>PKGBUILD打包上传</h2><p><code>PKGBUILD</code>并不难写，有问题的是<code>.install</code>脚本，以前没有接触过所以不怎么了解。</p>
 <ul>
 <li><code>.install</code>脚本中不能出现任何和用户交互的命令，踩坑owo。</li>
@@ -235,7 +236,7 @@ ga('send', 'pageview');
 <li>要想使普通用户正常使用Docker，需要将其加入<code>docker</code>用户组中，但是刷新用户组只能通过重新登录来解决，为了方便起见，甩给安装者一个Warning，并在之后的启动脚本中加入<code>sg</code>，避免了安装后的重启。</li>
 </ul>
 <h2 id="大胜利"><a href="#大胜利" class="headerlink" title="大胜利"></a>大胜利</h2><p>然后就结束了，体验成功++，欢迎各位食用和提issue，<code>netease-cloud-music-docker-version</code>已加入AUR中。</p>
-<p><a href="https://github.com/qzwlecr/netease-cloud-music-docker-version" target="_blank" rel="external">Github仓库地址</a></p>
+<p><a href="https://github.com/qzwlecr/netease-cloud-music-docker-version" target="_blank" rel="noopener">Github仓库地址</a></p>
 
       
 
@@ -388,7 +389,7 @@ ga('send', 'pageview');
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 qzwlecr
+    		&copy; 2019 qzwlecr
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -488,15 +489,11 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">超算</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -508,11 +505,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Lab</a>
+                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -525,6 +522,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">调优</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Lab</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -548,7 +553,7 @@ MathJax.Hub.Queue(function() {
         </div>
         <ul class="search-ul">
           <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
-            缺失模块。<br/>1、请确保node版本大于6.2<br/>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            缺失模块。<br>1、请确保node版本大于6.2<br>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br> npm i hexo-generator-json-content --save<br><br>
             3、在根目录_config.yml里添加配置：
 <pre style="font-size: 12px;" q-show="jsonFail">
   jsonContent:

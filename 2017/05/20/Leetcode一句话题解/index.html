@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="utf-8">
   
   <meta name="renderer" content="webkit">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <link rel="dns-prefetch" href="http://blog.qzwlecr.com">
   <title>Leetcode一句话题解 | qzwlecr&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
@@ -15,6 +15,7 @@
 <meta property="og:url" content="http://blog.qzwlecr.com/2017/05/20/Leetcode一句话题解/index.html">
 <meta property="og:site_name" content="qzwlecr&#39;s Blog">
 <meta property="og:description" content="最近无聊，刷了一批Leetcode水题，用简要题解记录一下做题过程，也小小帮助一下被坑所困的人。">
+<meta property="og:locale" content="zh-Hans">
 <meta property="og:updated_time" content="2017-07-17T06:49:45.834Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Leetcode一句话题解">
@@ -50,7 +51,7 @@ ga('send', 'pageview');
   
 
 </head>
-
+</html>
 <body>
   <div id="container" q-class="show:isCtnShow">
     <canvas id="anm-canvas" class="anm-canvas"></canvas>
@@ -177,7 +178,7 @@ ga('send', 'pageview');
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Leetcode一句话题解" class="article article-type-post " itemscope itemprop="blogPost">
+            <article id="post-Leetcode一句话题解" class="article article-type-post " itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <header class="article-header">
@@ -200,73 +201,73 @@ ga('send', 'pageview');
         <p>最近无聊，刷了一批Leetcode水题，用简要题解记录一下做题过程，也小小帮助一下被坑所困的人。</p>
 <a id="more"></a>
 <h2 id="1-10"><a href="#1-10" class="headerlink" title="1~10"></a>1~10</h2><ol>
-<li><p><a href="https://leetcode.com/problems/two-sum" target="_blank" rel="external">Two Sum</a></p>
+<li><p><a href="https://leetcode.com/problems/two-sum" target="_blank" rel="noopener">Two Sum</a></p>
 <ol>
 <li>$O(n^2)$：暴力枚举</li>
 <li>$O(nlogn)$：排序+two-pointers或者map/set大法好</li>
 <li>$O(n)$：哈希表</li>
 </ol>
 </li>
-<li><p><a href="https://leetcode.com/problems/add-two-numbers" target="_blank" rel="external">Add Two Numbers</a></p>
+<li><p><a href="https://leetcode.com/problems/add-two-numbers" target="_blank" rel="noopener">Add Two Numbers</a></p>
 <p>$O(n)$，边处理边进位，注意最后一位进位和链表为空的边界情况</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters" target="_blank" rel="external">Longest Substring Without Repeating Characters</a></p>
+<li><p><a href="https://leetcode.com/problems/longest-substring-without-repeating-characters" target="_blank" rel="noopener">Longest Substring Without Repeating Characters</a></p>
 <ol>
 <li>$O(nlogn)$，滑动窗口，用一个set维护当前的字符集，如果新加入的字符以前出现过，抛弃左边重复的字符，所有字符有且仅有被遍历一遍</li>
 <li>$O(n)$，把set换为哈希表</li>
 </ol>
 </li>
-<li><p><a href="https://leetcode.com/problems/median-of-two-sorted-arrays" target="_blank" rel="external">Median of Two Sorted Arrays</a></p>
+<li><p><a href="https://leetcode.com/problems/median-of-two-sorted-arrays" target="_blank" rel="noopener">Median of Two Sorted Arrays</a></p>
 <p>$O(log(min(m,n))$，特判数组大小为(0,*)(1,*)(2,*)的情况，二分查找，注意奇怪的边界情况</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/longest-palindromic-substring" target="_blank" rel="external">Longest Palindromic Substring</a></p>
+<li><p><a href="https://leetcode.com/problems/longest-palindromic-substring" target="_blank" rel="noopener">Longest Palindromic Substring</a></p>
 <p>$O(n)$，强上manacher算法</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/zigzag-conversion" target="_blank" rel="external">ZigZag Conversion</a></p>
+<li><p><a href="https://leetcode.com/problems/zigzag-conversion" target="_blank" rel="noopener">ZigZag Conversion</a></p>
 <p>手动模拟一下“ZIGZAG”的样子，模拟过程</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/reverse-integer" target="_blank" rel="external">Reverse Integer</a></p>
+<li><p><a href="https://leetcode.com/problems/reverse-integer" target="_blank" rel="noopener">Reverse Integer</a></p>
 <p>按位取出，重新分配，注意溢出问题</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/string-to-integer-atoi" target="_blank" rel="external">String to Integer (atoi)</a></p>
+<li><p><a href="https://leetcode.com/problems/string-to-integer-atoi" target="_blank" rel="noopener">String to Integer (atoi)</a></p>
 <p>按位取出，重新分配，注意符号和溢出问题</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/palindrome-number" target="_blank" rel="external">Palindrome Number</a></p>
+<li><p><a href="https://leetcode.com/problems/palindrome-number" target="_blank" rel="noopener">Palindrome Number</a></p>
 <p>$O(n)$，从两边向中间判断</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/regular-expression-matching" target="_blank" rel="external">Regular Expression Matching</a></p>
+<li><p><a href="https://leetcode.com/problems/regular-expression-matching" target="_blank" rel="noopener">Regular Expression Matching</a></p>
 <p>$O(mn)$，DP，按下一个是否为’*’分类讨论</p>
 </li>
 </ol>
 <h2 id="11-20"><a href="#11-20" class="headerlink" title="11~20"></a>11~20</h2><ol>
-<li><p><a href="https://leetcode.com/problems/container-with-most-water" target="_blank" rel="external">Container With Most Water</a></p>
+<li><p><a href="https://leetcode.com/problems/container-with-most-water" target="_blank" rel="noopener">Container With Most Water</a></p>
 <p>$O(n)$，two pointers，移动高度较小的指针，使结果尽量大。</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/integer-to-roman" target="_blank" rel="external">Integer to Roman</a></p>
+<li><p><a href="https://leetcode.com/problems/integer-to-roman" target="_blank" rel="noopener">Integer to Roman</a></p>
 <p>模拟题，按照罗马数字的规则追加相应的字符串。</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/roman-to-integer" target="_blank" rel="external">Roman to Integer</a></p>
+<li><p><a href="https://leetcode.com/problems/roman-to-integer" target="_blank" rel="noopener">Roman to Integer</a></p>
 <p>模拟题，按照罗马数字的规则加上相应的数字。</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/longest-common-prefix" target="_blank" rel="external">Longest Common Prefix</a></p>
+<li><p><a href="https://leetcode.com/problems/longest-common-prefix" target="_blank" rel="noopener">Longest Common Prefix</a></p>
 <p>模拟题，按照长度排序，然后搜索最短的字符串最大能匹配到所有的字符串的第多少个字符。</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/3sum" target="_blank" rel="external">3Sum</a></p>
+<li><p><a href="https://leetcode.com/problems/3sum" target="_blank" rel="noopener">3Sum</a></p>
 <p>$O(n^2)$，two pointers，枚举一个数，然后在后面的序列寻找满足的两个数，注意去重。</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/3sum-closest" target="_blank" rel="external">3Sum Closest</a></p>
+<li><p><a href="https://leetcode.com/problems/3sum-closest" target="_blank" rel="noopener">3Sum Closest</a></p>
 <p>与3Sum相同， 只是记录的时候判断并记录距离最小的值。</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number" target="_blank" rel="external">Letter Combinations of a Phone Number</a></p>
+<li><p><a href="https://leetcode.com/problems/letter-combinations-of-a-phone-number" target="_blank" rel="noopener">Letter Combinations of a Phone Number</a></p>
 <p>模拟题，每次循环往上次生成的序列中的每个元素尾部追加相应字符。</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/4sum" target="_blank" rel="external">4Sum</a></p>
+<li><p><a href="https://leetcode.com/problems/4sum" target="_blank" rel="noopener">4Sum</a></p>
 <p>与3Sum相同，只是需要枚举两个值。</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list" target="_blank" rel="external">Remove Nth Node From End of List</a></p>
+<li><p><a href="https://leetcode.com/problems/remove-nth-node-from-end-of-list" target="_blank" rel="noopener">Remove Nth Node From End of List</a></p>
 <p>简单的链表操作，注意删除首节点的情况。</p>
 </li>
-<li><p><a href="https://leetcode.com/problems/valid-parentheses" target="_blank" rel="external">Valid Parentheses</a></p>
+<li><p><a href="https://leetcode.com/problems/valid-parentheses" target="_blank" rel="noopener">Valid Parentheses</a></p>
 <p>使用一个栈维护一下之前的左括号，按照右括号判断，若无对应的左括号则无法匹配。</p>
 </li>
 </ol>
@@ -423,7 +424,7 @@ ga('send', 'pageview');
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2018 qzwlecr
+    		&copy; 2019 qzwlecr
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -523,15 +524,11 @@ MathJax.Hub.Queue(function() {
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">超算</a>
+              </li>
+             
+              <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">总结</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">算法</a>
-              </li>
-             
-              <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -543,11 +540,11 @@ MathJax.Hub.Queue(function() {
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+                <a href="javascript:void(0)" class="js-tag color3">算法</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">Lab</a>
+                <a href="javascript:void(0)" class="js-tag color4">leetcode</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -560,6 +557,14 @@ MathJax.Hub.Queue(function() {
              
               <li class="article-tag-list-item">
                 <a href="javascript:void(0)" class="js-tag color3">调优</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">分布式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">Lab</a>
               </li>
              
               <li class="article-tag-list-item">
@@ -583,7 +588,7 @@ MathJax.Hub.Queue(function() {
         </div>
         <ul class="search-ul">
           <p q-show="jsonFail" style="padding: 20px; font-size: 12px;">
-            缺失模块。<br/>1、请确保node版本大于6.2<br/>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br/> npm i hexo-generator-json-content --save<br/><br/>
+            缺失模块。<br>1、请确保node版本大于6.2<br>2、在博客根目录（注意不是yilia根目录）执行以下命令：<br> npm i hexo-generator-json-content --save<br><br>
             3、在根目录_config.yml里添加配置：
 <pre style="font-size: 12px;" q-show="jsonFail">
   jsonContent:
